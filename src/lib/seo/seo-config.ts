@@ -21,105 +21,105 @@ export const seoTranslations: Record<
   }
 > = {
   es: {
-    title: "eTourism - Reserva Tours y Transporte | Viajes Internacionales",
+    title: "Inca Travel Peru - Reserva Tours y Transporte | Viajes Internacionales",
     description:
       "Descubre y reserva los mejores tours y servicios de transporte en todo el mundo. Experiencias de viaje auténticas y asequibles.",
     keywords: ["tours", "viajes", "transporte", "reservas", "turismo", "vacaciones", "experiencias"],
-    toursTitle: "Tours Turísticos | Explora Destinos Increíbles | eTourism",
+    toursTitle: "Tours Turísticos | Explora Destinos Increíbles | Inca Travel Peru",
     toursDescription:
       "Descubre tours auténticos en destinos fascinantes. Guías locales experientes, precios competitivos y reservas seguras.",
-    transportsTitle: "Transporte de Viajes | Buses, Taxis y Traslados | eTourism",
+    transportsTitle: "Transporte de Viajes | Buses, Taxis y Traslados | Inca Travel Peru",
     transportsDescription:
       "Reserva transporte confiable para tus viajes. Opciones de traslados, buses y servicios de transporte profesionales.",
   },
   en: {
-    title: "eTourism - Book Tours & Transportation | Global Travel Booking",
+    title: "Inca Travel Peru - Book Tours & Transportation | Global Travel Booking",
     description:
       "Discover and book the best tours and transportation services worldwide. Authentic travel experiences at affordable prices.",
     keywords: ["tours", "travel", "transportation", "booking", "tourism", "vacations", "experiences"],
-    toursTitle: "Tours & Activities | Explore Amazing Destinations | eTourism",
+    toursTitle: "Tours & Activities | Explore Amazing Destinations | Inca Travel Peru",
     toursDescription:
       "Discover authentic tours in fascinating destinations. Expert local guides, competitive prices, and secure bookings.",
-    transportsTitle: "Travel Transportation | Buses, Taxis & Transfers | eTourism",
+    transportsTitle: "Travel Transportation | Buses, Taxis & Transfers | Inca Travel Peru",
     transportsDescription:
       "Book reliable transportation for your travels. Transfer services, buses, and professional transport options.",
   },
   fr: {
-    title: "eTourism - Réservez Excursions et Transports | Voyages Internationaux",
+    title: "Inca Travel Peru - Réservez Excursions et Transports | Voyages Internationaux",
     description:
       "Découvrez et réservez les meilleures excursions et services de transport dans le monde. Expériences de voyage authentiques.",
     keywords: ["tours", "voyage", "transport", "réservation", "tourisme", "vacances", "expériences"],
-    toursTitle: "Excursions & Activités | Explorez Destinations Fascinantes | eTourism",
+    toursTitle: "Excursions & Activités | Explorez Destinations Fascinantes | Inca Travel Peru",
     toursDescription:
       "Découvrez des excursions authentiques dans des destinations fascinantes. Guides locaux experts et réservations sécurisées.",
-    transportsTitle: "Transport de Voyage | Bus, Taxis & Transferts | eTourism",
+    transportsTitle: "Transport de Voyage | Bus, Taxis & Transferts | Inca Travel Peru",
     transportsDescription:
       "Réservez un transport fiable pour vos voyages. Services de transfert, bus et options de transport professionnel.",
   },
   it: {
-    title: "eTourism - Prenota Tour e Trasporti | Prenotazioni Viaggi Globali",
+    title: "Inca Travel Peru - Prenota Tour e Trasporti | Prenotazioni Viaggi Globali",
     description:
       "Scopri e prenota i migliori tour e servizi di trasporto in tutto il mondo. Esperienze di viaggio autentiche a prezzi convenienti.",
     keywords: ["tour", "viaggio", "trasporto", "prenotazione", "turismo", "vacanze", "esperienze"],
-    toursTitle: "Tour e Attività | Esplora Destinazioni Incredibili | eTourism",
+    toursTitle: "Tour e Attività | Esplora Destinazioni Incredibili | Inca Travel Peru",
     toursDescription:
       "Scopri tour autentici in destinazioni affascinanti. Guide locali esperte, prezzi competitivi e prenotazioni sicure.",
-    transportsTitle: "Trasporto Viaggi | Autobus, Taxi e Trasferimenti | eTourism",
+    transportsTitle: "Trasporto Viaggi | Autobus, Taxi e Trasferimenti | Inca Travel Peru",
     transportsDescription:
       "Prenota trasporti affidabili per i tuoi viaggi. Servizi di trasferimento, autobus e opzioni di trasporto professionali.",
   },
   de: {
-    title: "eTourism - Tours & Transport Buchen | Globale Reisebuchung",
+    title: "Inca Travel Peru - Tours & Transport Buchen | Globale Reisebuchung",
     description:
       "Entdecke und buche die besten Touren und Transportservices weltweit. Authentische Reiseerlebnisse zu erschwinglichen Preisen.",
     keywords: ["touren", "reisen", "transport", "buchung", "tourismus", "ferien", "erlebnisse"],
-    toursTitle: "Touren & Aktivitäten | Erkunde Faszinierende Ziele | eTourism",
+    toursTitle: "Touren & Aktivitäten | Erkunde Faszinierende Ziele | Inca Travel Peru",
     toursDescription:
       "Entdecke authentische Touren an faszinierenden Reisezielen. Erfahrene lokale Guides, wettbewerbsfähige Preise und sichere Buchungen.",
-    transportsTitle: "Reistransport | Busse, Taxis & Transfers | eTourism",
+    transportsTitle: "Reistransport | Busse, Taxis & Transfers | Inca Travel Peru",
     transportsDescription:
       "Buche zuverlässigen Transport für deine Reisen. Transferservices, Busse und professionelle Transportoptionen.",
   },
   pt: {
-    title: "eTourism - Reserve Tours e Transporte | Reservas de Viagem Global",
+    title: "Inca Travel Peru - Reserve Tours e Transporte | Reservas de Viagem Global",
     description:
       "Descubra e reserve os melhores tours e serviços de transporte em todo o mundo. Experiências de viagem autênticas a preços acessíveis.",
     keywords: ["tours", "viagem", "transporte", "reserva", "turismo", "férias", "experiências"],
-    toursTitle: "Tours e Atividades | Explore Destinos Incríveis | eTourism",
+    toursTitle: "Tours e Atividades | Explore Destinos Incríveis | Inca Travel Peru",
     toursDescription:
       "Descubra tours autênticos em destinos fascinantes. Guias locais experientes, preços competitivos e reservas seguras.",
-    transportsTitle: "Transporte de Viagem | Ônibus, Táxis e Transferências | eTourism",
+    transportsTitle: "Transporte de Viagem | Ônibus, Táxis e Transferências | Inca Travel Peru",
     transportsDescription:
       "Reserve transporte confiável para suas viagens. Serviços de transferência, ônibus e opções de transporte profissional.",
   },
   zh: {
-    title: "eTourism - 预订旅游和交通 | 全球旅行预订",
+    title: "Inca Travel Peru - 预订旅游和交通 | 全球旅行预订",
     description: "发现并预订全球最佳旅游和运输服务。真实的旅行体验，价格实惠。",
     keywords: ["旅游", "旅行", "运输", "预订", "观光", "假期", "体验"],
-    toursTitle: "旅游和活动 | 探索奇妙目的地 | eTourism",
+    toursTitle: "旅游和活动 | 探索奇妙目的地 | Inca Travel Peru",
     toursDescription: "发现令人着迷的目的地的真实旅游体验。专业的当地导游，具有竞争力的价格和安全预订。",
-    transportsTitle: "旅行交通 | 公交车、出租车和接送服务 | eTourism",
+    transportsTitle: "旅行交通 | 公交车、出租车和接送服务 | Inca Travel Peru",
     transportsDescription: "为您的旅行预订可靠的交通工具。接送服务、公交车和专业运输选项。",
   },
   ja: {
-    title: "eTourism - ツアーと交通を予約 | グローバル旅行予約",
+    title: "Inca Travel Peru - ツアーと交通を予約 | グローバル旅行予約",
     description: "世界中の最高のツアーと交通サービスを発見して予約します。本物の旅行体験を手頃な価格で。",
     keywords: ["ツアー", "旅行", "交通", "予約", "観光", "休暇", "体験"],
-    toursTitle: "ツアーとアクティビティ | 魅力的な目的地を探索 | eTourism",
+    toursTitle: "ツアーとアクティビティ | 魅力的な目的地を探索 | Inca Travel Peru",
     toursDescription:
       "魅力的な目的地で本物のツアー体験を発見します。経験豊富な現地ガイド、競争力のある価格、安全な予約。",
-    transportsTitle: "旅行交通 | バス、タクシー、送迎サービス | eTourism",
+    transportsTitle: "旅行交通 | バス、タクシー、送迎サービス | Inca Travel Peru",
     transportsDescription: "旅行のための信頼できる交通機関を予約します。送迎サービス、バス、専門的な交通オプション。",
   },
   ru: {
-    title: "eTourism - Забронируйте Туры и Транспорт | Глобальное Бронирование Путешествий",
+    title: "Inca Travel Peru - Забронируйте Туры и Транспорт | Глобальное Бронирование Путешествий",
     description:
       "Откройте и забронируйте лучшие туры и услуги транспорта по всему миру. Подлинные впечатления от путешествий по доступным ценам.",
     keywords: ["туры", "путешествия", "транспорт", "бронирование", "туризм", "отпуск", "впечатления"],
-    toursTitle: "Туры и Деятельность | Исследуйте Удивительные Направления | eTourism",
+    toursTitle: "Туры и Деятельность | Исследуйте Удивительные Направления | Inca Travel Peru",
     toursDescription:
       "Откройте подлинные туры в увлекательные направления. Опытные местные гиды, конкурентные цены и безопасное бронирование.",
-    transportsTitle: "Транспорт для Путешествий | Автобусы, Такси и Трансферы | eTourism",
+    transportsTitle: "Транспорт для Путешествий | Автобусы, Такси и Трансферы | Inca Travel Peru",
     transportsDescription:
       "Забронируйте надежный транспорт для ваших путешествий. Услуги трансферов, автобусы и профессиональные транспортные варианты.",
   },
@@ -197,7 +197,7 @@ export function generateTourSEO(
   })
 
   return {
-    title: `${tour.title} | Tours | eTourism`,
+    title: `${tour.title} | Tours | Inca Travel Peru`,
     description: seoDescription,
     keywords: [tour.title, "tour", "viaje", "reserva", "experiencia", "destino"],
     alternates: {
@@ -205,7 +205,7 @@ export function generateTourSEO(
       canonical: fullUrl,
     },
     openGraph: {
-      title: `${tour.title} | Tours | eTourism`,
+      title: `${tour.title} | Tours | Inca Travel Peru`,
       description: seoDescription,
       url: fullUrl,
       type: "website",
@@ -220,7 +220,7 @@ export function generateTourSEO(
     },
     twitter: {
       card: "summary_large_image",
-      title: `${tour.title} | Tours | eTourism`,
+      title: `${tour.title} | Tours | Inca Travel Peru`,
       description: seoDescription,
       images: [`${baseUrl}${siteConfig.ogImage}`],
     },
@@ -248,7 +248,7 @@ export function generateTransportSEO(
   })
 
   return {
-    title: `${transport.title} | Transport | eTourism`,
+    title: `${transport.title} | Transport | Inca Travel Peru`,
     description: seoDescription,
     keywords: [transport.title, "transporte", "viaje", "reserva", "traslado"],
     alternates: {
@@ -256,7 +256,7 @@ export function generateTransportSEO(
       canonical: fullUrl,
     },
     openGraph: {
-      title: `${transport.title} | Transport | eTourism`,
+      title: `${transport.title} | Transport | Inca Travel Peru`,
       description: seoDescription,
       url: fullUrl,
       type: "website",
@@ -271,7 +271,7 @@ export function generateTransportSEO(
     },
     twitter: {
       card: "summary_large_image",
-      title: `${transport.title} | Transport | eTourism`,
+      title: `${transport.title} | Transport | Inca Travel Peru`,
       description: seoDescription,
       images: [`${baseUrl}${siteConfig.ogImage}`],
     },

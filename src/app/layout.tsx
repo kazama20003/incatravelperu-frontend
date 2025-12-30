@@ -51,13 +51,13 @@ export const metadata: Metadata = {
         url: "https://res.cloudinary.com/ddbzpbrje/image/upload/v1767086891/Captura_de_pantalla_2025-12-30_042713_cjvshs.png",
         width: 1200,
         height: 630,
-        alt: "eTourism",
+        alt: "Inca Travel Peru - Tourism & Transport Dashboard",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "eTourism - Tourism & Transport Dashboard",
+    title: "Inca Travel Perus - Tourism & Transport Dashboard",
     description: "Book tours and transportation services worldwide.",
     images: [
       "https://res.cloudinary.com/ddbzpbrje/image/upload/v1767086891/Captura_de_pantalla_2025-12-30_042713_cjvshs.png",
