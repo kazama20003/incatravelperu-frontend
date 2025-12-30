@@ -22,10 +22,7 @@ import { getPaymentMethodsDictionary, type PaymentMethodsDictionary } from "./di
 import { getTransportsSectionDictionary, type TransportsSectionDictionary } from "./dictionaries/transports-section"
 import { getFooterDictionary, type FooterDictionary } from "./dictionaries/footer"
 
-
-// SCHEMA COMPLETO
-export interface DictionarySchema {
-  global: GlobalDictionary
+export interface DictionarySchema extends GlobalDictionary {
   hero: HomeDictionary["hero"]
   products: HomeDictionary["products"]
   tours: ToursDictionary
@@ -42,41 +39,35 @@ export interface DictionarySchema {
   footer: FooterDictionary
 }
 
-
 export type Dictionary = DictionarySchema
 
-
-// FUNCIÓN PRINCIPAL
 export function getDictionary(locale: Locale): DictionarySchema {
-  const home = getHomeDictionary(locale)
-
   return {
-    global: getGlobalDictionary(locale),  // ← CORREGIDO
+    // Base global dictionary (incluye footer base)
+    ...getGlobalDictionary(locale),
+    // Home sections
+    ...getHomeDictionary(locale),
 
-    // Home
-    hero: home.hero,
-    products: home.products,
-
-    // Modules
+    // Módulos
     tours: getToursDictionary(locale),
     visit: getVisitDictionary(locale),
     club: getClubDictionary(locale),
     events: getEventsDictionary(locale),
     about: getAboutDictionary(locale),
 
-    // Sections
+    // Secciones
     heroSection: getHeroSectionDictionary(locale),
     featuredSection: getFeaturedSectionDictionary(locale),
     productsSection: getProductsSectionDictionary(locale),
     testimonials: getTestimonialsDictionary(locale),
     paymentMethods: getPaymentMethodsDictionary(locale),
     transportsSection: getTransportsSectionDictionary(locale),
+
+    // Footer completo (sobrescribe el footer básico del GlobalDictionary)
     footer: getFooterDictionary(locale),
   }
 }
 
-
-// EXPORTS ORDENADOS
 export {
   getGlobalDictionary,
   getHomeDictionary,
@@ -91,5 +82,4 @@ export {
   getTestimonialsDictionary,
   getPaymentMethodsDictionary,
   getTransportsSectionDictionary,
-  getFooterDictionary,
 }

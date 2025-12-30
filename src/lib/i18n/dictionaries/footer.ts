@@ -19,6 +19,8 @@ export interface FooterDictionary {
   terms: string
   shipping: string
   reservation: string
+  rights: string
+  contact: string
 }
 
 const footerDictionaries: Record<Locale, FooterDictionary> = {
@@ -41,6 +43,8 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     terms: "Términos",
     shipping: "Envíos",
     reservation: "Reservas WhatsApp",
+    rights: "Todos los derechos reservados.",
+    contact: "Contacto",
   },
   en: {
     subscribe: "SUBSCRIBE",
@@ -61,6 +65,8 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     terms: "Terms",
     shipping: "Shipping",
     reservation: "WhatsApp Reservations",
+    rights: "All rights reserved.",
+    contact: "Contact",
   },
   pt: {
     subscribe: "INSCREVER-SE",
@@ -81,6 +87,8 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     terms: "Termos",
     shipping: "Envios",
     reservation: "Reservas WhatsApp",
+    rights: "Todos os direitos reservados.",
+    contact: "Contato",
   },
   fr: {
     subscribe: "S'ABONNER",
@@ -101,6 +109,8 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     terms: "Conditions",
     shipping: "Expédition",
     reservation: "Réservations WhatsApp",
+    rights: "Tous droits réservés.",
+    contact: "Contact",
   },
   de: {
     subscribe: "ABONNIEREN",
@@ -121,6 +131,8 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     terms: "Bedingungen",
     shipping: "Versand",
     reservation: "WhatsApp Reservierungen",
+    rights: "Alle Rechte vorbehalten.",
+    contact: "Kontakt",
   },
   it: {
     subscribe: "ISCRIVITI",
@@ -141,6 +153,8 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     terms: "Termini",
     shipping: "Spedizione",
     reservation: "Prenotazioni WhatsApp",
+    rights: "Tutti i diritti riservati.",
+    contact: "Contatto",
   },
   ja: {
     subscribe: "購読する",
@@ -161,6 +175,8 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     terms: "利用規約",
     shipping: "発送",
     reservation: "WhatsApp予約",
+    rights: "全著作権所有。",
+    contact: "お問い合わせ",
   },
   zh: {
     subscribe: "订阅",
@@ -181,6 +197,8 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     terms: "条款",
     shipping: "运输",
     reservation: "WhatsApp预约",
+    rights: "版权所有。",
+    contact: "联系",
   },
   ru: {
     subscribe: "ПОДПИСАТЬСЯ",
@@ -201,6 +219,8 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     terms: "Условия",
     shipping: "Доставка",
     reservation: "Бронирование WhatsApp",
+    rights: "Все права защищены.",
+    contact: "Контакты",
   },
 }
 
