@@ -10,80 +10,79 @@ export interface FeaturedSectionDictionary {
 
 export const featuredSectionDictionaries: Record<Locale, FeaturedSectionDictionary> = {
   es: {
-    title: "Una Propiedad Familiar,",
-    titleLine2: "Elaborada Por Generaciones.",
+    title: "Una Familia Incatravel,",
+    titleLine2: "Dedicada a tu Comodidad.",
     description:
-      "Maxwell Wines elabora vinos premium que celebran el carácter calcáreo de la propiedad. Desde el audaz Shiraz hasta los blancos vibrantes y los icónicos meads de la propiedad, cada botella refleja un compromiso con la sostenibilidad y la elaboración meticulosa.",
-    shopButton: "COMPRAR VINO Y MEAD →",
-    restaurantLabel: "RESTAURANTE MAXWELL",
+      "Incatravel es una empresa familiar que se dedica a brindar los mejores tours y servicios de transporte. Nos enfocamos en tu comodidad, seguridad y los mejores precios para que disfrutes cada momento de tu viaje con tranquilidad.",
+    shopButton: "VER TOURS →",
+    restaurantLabel: "TOURS INCATRAVEL",
   },
   en: {
-    title: "A Family Estate,",
-    titleLine2: "Crafted By Generations.",
+    title: "An Incatravel Family,",
+    titleLine2: "Dedicated to Your Comfort.",
     description:
-      "Maxwell Wines crafts premium wines that celebrate the limestone character of the estate. From bold Shiraz to vibrant whites and the estates iconic meads, every bottle reflects a commitment to sustainability and meticulous winemaking.",
-    shopButton: "SHOP WINE & MEAD →",
-    restaurantLabel: "MAXWELL RESTAURANT",
+      "Incatravel is a family business dedicated to providing the best tours and transportation services. We focus on your comfort, safety, and the best prices so you can enjoy every moment of your trip with peace of mind.",
+    shopButton: "VIEW TOURS →",
+    restaurantLabel: "INCATRAVEL TOURS",
   },
   fr: {
-    title: "Un Domaine Familial,",
-    titleLine2: "Créé Par Les Générations.",
+    title: "Une Famille Incatravel,",
+    titleLine2: "Dédiée à Votre Confort.",
     description:
-      "Maxwell Wines crée des vins premium qui célèbrent le caractère calcaire du domaine. Du Shiraz audacieux aux blancs vibrants et aux hydromel emblématiques du domaine, chaque bouteille reflète un engagement envers la durabilité et la vinification méticuleuse.",
-    shopButton: "ACHETER VIN ET HYDROMEL →",
-    restaurantLabel: "RESTAURANT MAXWELL",
+      "Incatravel est une entreprise familiale dédiée à fournir les meilleurs circuits et services de transport. Nous nous concentrons sur votre confort, votre sécurité et les meilleurs prix pour que vous puissiez profiter de chaque moment de votre voyage en toute tranquillité.",
+    shopButton: "VOIR LES CIRCUITS →",
+    restaurantLabel: "CIRCUITS INCATRAVEL",
   },
   it: {
-    title: "Una Tenuta Familiare,",
-    titleLine2: "Creata Da Generazioni.",
+    title: "Una Famiglia Incatravel,",
+    titleLine2: "Dedicata al Tuo Comfort.",
     description:
-      "Maxwell Wines crea vini premium che celebrano il carattere calcareo della tenuta. Dai Shiraz audaci ai bianchi vibranti e ai celebri idromele della tenuta, ogni bottiglia riflette un impegno verso la sostenibilità e la vinificazione meticolosa.",
-    shopButton: "ACQUISTA VINO E IDROMELE →",
-    restaurantLabel: "RISTORANTE MAXWELL",
+      "Incatravel è un'azienda familiare dedicata a fornire i migliori tour e servizi di trasporto. Ci concentriamo sul tuo comfort, sicurezza e i migliori prezzi in modo che tu possa goderti ogni momento del tuo viaggio con tranquillità.",
+    shopButton: "VISUALIZZA TOUR →",
+    restaurantLabel: "TOUR INCATRAVEL",
   },
   de: {
-    title: "Ein Familienweingut,",
-    titleLine2: "Von Generationen Geprägt.",
+    title: "Eine Incatravel Familie,",
+    titleLine2: "Ihrem Komfort Gewidmet.",
     description:
-      "Maxwell Wines stellt Prämiumweine her, die den Kalksteincharakter des Weinguts würdigen. Von kühnem Shiraz über lebhafte Weißweine bis hin zu den ikonischen Weinen des Weinguts spiegelt jede Flasche ein Engagement für Nachhaltigkeit und sorgfältige Weinbereitung wider.",
-    shopButton: "WEIN UND MET KAUFEN →",
-    restaurantLabel: "MAXWELL RESTAURANT",
+      "Incatravel ist ein Familienunternehmen, das sich der Bereitstellung der besten Touren und Transportdienste widmet. Wir konzentrieren uns auf Ihren Komfort, Ihre Sicherheit und die besten Preise, damit Sie jeden Moment Ihrer Reise unbesorgt genießen können.",
+    shopButton: "TOUREN ANSEHEN →",
+    restaurantLabel: "INCATRAVEL TOUREN",
   },
   pt: {
-    title: "Uma Propriedade Familiar,",
-    titleLine2: "Elaborada Por Gerações.",
+    title: "Uma Família Incatravel,",
+    titleLine2: "Dedicada ao Seu Conforto.",
     description:
-      "Maxwell Wines cria vinhos premium que celebram o caráter calcário da propriedade. Do audacioso Shiraz aos brancos vibrantes e aos hidroméis icônicos da propriedade, cada garrafa reflete um compromisso com a sustentabilidade e a vinificação meticulosa.",
-    shopButton: "COMPRE VINHO E HIDROMEL →",
-    restaurantLabel: "RESTAURANTE MAXWELL",
+      "Incatravel é uma empresa familiar dedicada a fornecer os melhores passeios e serviços de transporte. Focamos no seu conforto, segurança e nos melhores preços para que você aproveite cada momento da sua viagem com tranquilidade.",
+    shopButton: "VER TOURS →",
+    restaurantLabel: "TOURS INCATRAVEL",
   },
   zh: {
-    title: "家族庄园，",
-    titleLine2: "由世代精心打造。",
+    title: "Incatravel 家族，",
+    titleLine2: "致力于您的舒适。",
     description:
-      "Maxwell Wines 精心酿造优质葡萄酒，彰显庄园的石灰岩特征。从大胆的西拉到充满活力的白葡萄酒，再到庄园标志性的蜂蜜酒，每一瓶都体现了对可持续发展和精心酿造工艺的承诺。",
-    shopButton: "购买葡萄酒和蜂蜜酒 →",
-    restaurantLabel: "MAXWELL 餐厅",
+      "Incatravel 是一家致力于提供最佳旅游和交通服务的家族企业。我们专注于您的舒适、安全和最优惠的价格，让您安心享受旅途的每一刻。",
+    shopButton: "查看旅游 →",
+    restaurantLabel: "INCATRAVEL 旅游",
   },
   ja: {
-    title: "ファミリー・エステート、",
-    titleLine2: "世代を通じて職人技で作られました。",
+    title: "Incatravel ファミリー、",
+    titleLine2: "あなたの快適さに捧げます。",
     description:
-      "Maxwell Wines は、エステートの石灰岩の性質を祝う高級ワインを製造しています。大胆なシラーズから活気に満ちた白ワイン、そしてエステートのアイコニックなミードまで、すべてのボトルは持続可能性と細心のワイン製造への取り組みを反映しています。",
-    shopButton: "ワインとミードを購入する →",
-    restaurantLabel: "マクスウェル レストラン",
+      "Incatravel は、最高のツアーと交通サービスを提供することに専念する家族経営の企業です。お客様の快適さ、安全性、そして最高の価格に焦点を当て、旅行の一瞬一瞬を安心して楽しんでいただけます。",
+    shopButton: "ツアーを見る →",
+    restaurantLabel: "INCATRAVEL ツアー",
   },
   ru: {
-    title: "Семейное Поместье,",
-    titleLine2: "Созданное Поколениями.",
+    title: "Семья Incatravel,",
+    titleLine2: "Посвящена Вашему Комфорту.",
     description:
-      "Maxwell Wines создает премиальные вина, которые прославляют известняковый характер усадьбы. От смелого Шираза до ярких белых вин и культовых медов поместья, каждая бутылка отражает приверженность устойчивому развитию и тщательному виноделию.",
-    shopButton: "КУПИТЬ ВИНО И МЕД →",
-    restaurantLabel: "РЕСТОРАН MAXWELL",
+      "Incatravel — это семейный бизнес, посвященный предоставлению лучших туров и транспортных услуг. Мы фокусируемся на вашем комфорте, безопасности и лучших ценах, чтобы вы могли наслаждаться каждым моментом вашей поездки со спокойной душой.",
+    shopButton: "ПОСМОТРЕТЬ ТУРЫ →",
+    restaurantLabel: "ТУРЫ INCATRAVEL",
   },
 }
 
 export function getFeaturedSectionDictionary(locale: Locale): FeaturedSectionDictionary {
   return featuredSectionDictionaries[locale]
 }
-    

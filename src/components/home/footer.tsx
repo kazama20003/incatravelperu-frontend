@@ -1,28 +1,24 @@
 "use client"
 
-import { Instagram, Facebook, ArrowRight } from "lucide-react"
+import { Instagram, Facebook, ArrowRight, MessageCircle, Mail } from "lucide-react"
 import Link from "next/link"
 import { useTranslation } from "@/lib/i18n/context"
-import { getFooterDictionary } from "@/lib/i18n/dictionaries/footer"
-import type { Locale } from "@/lib/i18n/config"
 
 export function Footer() {
-  const { locale: currentLocale } = useTranslation()
-  const dict = getFooterDictionary(currentLocale as Locale)
+  const { locale: currentLocale, dictionary } = useTranslation()
+  const dict = dictionary.footer
 
   const navItems = [
-    { name: dict.tours, href: `/${currentLocale}/tours` },
-    { name: dict.transports, href: `/${currentLocale}/transports` },
-    { name: dict.visit, href: `/${currentLocale}/visit` },
-    { name: dict.club, href: `/${currentLocale}/club` },
-    { name: dict.events, href: `/${currentLocale}/events` },
-    { name: dict.about, href: `/${currentLocale}/about` },
+    { name: dict.tours, href: `/tours` },
+    { name: dict.transports, href: `/transports` },
+    { name: dict.visit, href: `/visit` },
+    { name: dict.club, href: `/club` },
+    { name: dict.events, href: `/events` },
+    { name: dict.about, href: `/about` },
   ]
 
   return (
-    <footer className="bg-white text-black border-white">
-      <div className="w-full h-px bg-black/25" />
-
+    <footer className="bg-white text-black border-t border-black/10">
       <div className="px-6 md:px-12 pt-12 pb-6">
         {/* Top section */}
         <div className="flex flex-col lg:flex-row justify-between gap-12 mb-16">
@@ -53,7 +49,7 @@ export function Footer() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-sm font-black uppercase hover:text-neon-orange transition-colors tracking-widest"
+                    className="text-sm font-black uppercase hover:text-[#FF4D00] transition-colors tracking-widest"
                   >
                     {item.name}
                   </Link>
@@ -64,7 +60,7 @@ export function Footer() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-sm font-black uppercase hover:text-neon-orange transition-colors tracking-widest"
+                    className="text-sm font-black uppercase hover:text-[#FF4D00] transition-colors tracking-widest"
                   >
                     {item.name}
                   </Link>
@@ -76,13 +72,43 @@ export function Footer() {
 
         {/* Middle section - Address, Brand, Socials */}
         <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8 mb-12">
-          {/* Address */}
-          <div className="text-xs leading-relaxed italic text-black/80 font-black">
-            <p>{dict.address}</p>
-            <p>{dict.country}</p>
-            <p>
-              {dict.phone} <span className="not-italic">+51 84 123 4567</span>
-            </p>
+          {/* Contact Info */}
+          <div className="text-xs leading-relaxed italic text-black/80 font-black flex flex-col gap-3">
+            <div>
+              <p>{dict.address}</p>
+              <p>{dict.country}</p>
+            </div>
+
+            <div className="flex flex-col gap-2 not-italic">
+              <span className="flex items-center gap-2">
+                <Mail className="h-4 w-4" />
+                <a href="mailto:reservas.incatravelperu@gmail.com" className="hover:text-[#FF4D00] transition-colors">
+                  reservas.incatravelperu@gmail.com
+                </a>
+              </span>
+              <span className="flex items-center gap-2">
+                <MessageCircle className="h-4 w-4" />
+                <a
+                  href="https://wa.me/51959784730"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#FF4D00] transition-colors"
+                >
+                  +51 959 784 730
+                </a>
+              </span>
+              <span className="flex items-center gap-2">
+                <MessageCircle className="h-4 w-4" />
+                <a
+                  href="https://wa.me/51997407040"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#FF4D00] transition-colors"
+                >
+                  +51 997 407 040
+                </a>
+              </span>
+            </div>
           </div>
 
           {/* Brand */}
@@ -92,10 +118,10 @@ export function Footer() {
 
           {/* Social icons */}
           <div className="flex items-center gap-3">
-            <Link href="#" className="hover:text-neon-orange transition-colors" aria-label="Instagram">
+            <Link href="#" className="hover:text-[#FF4D00] transition-colors" aria-label="Instagram">
               <Instagram className="h-6 w-6" />
             </Link>
-            <Link href="#" className="hover:text-neon-orange transition-colors" aria-label="Facebook">
+            <Link href="#" className="hover:text-[#FF4D00] transition-colors" aria-label="Facebook">
               <Facebook className="h-6 w-6" />
             </Link>
           </div>

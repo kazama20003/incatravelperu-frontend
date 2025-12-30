@@ -18,6 +18,7 @@ export interface FooterDictionary {
   privacy: string
   terms: string
   shipping: string
+  reservation: string
 }
 
 const footerDictionaries: Record<Locale, FooterDictionary> = {
@@ -39,6 +40,7 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     privacy: "Privacidad",
     terms: "Términos",
     shipping: "Envíos",
+    reservation: "Reservas WhatsApp",
   },
   en: {
     subscribe: "SUBSCRIBE",
@@ -58,6 +60,7 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     privacy: "Privacy",
     terms: "Terms",
     shipping: "Shipping",
+    reservation: "WhatsApp Reservations",
   },
   pt: {
     subscribe: "INSCREVER-SE",
@@ -77,6 +80,7 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     privacy: "Privacidade",
     terms: "Termos",
     shipping: "Envios",
+    reservation: "Reservas WhatsApp",
   },
   fr: {
     subscribe: "S'ABONNER",
@@ -96,6 +100,7 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     privacy: "Confidentialité",
     terms: "Conditions",
     shipping: "Expédition",
+    reservation: "Réservations WhatsApp",
   },
   de: {
     subscribe: "ABONNIEREN",
@@ -115,6 +120,7 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     privacy: "Datenschutz",
     terms: "Bedingungen",
     shipping: "Versand",
+    reservation: "WhatsApp Reservierungen",
   },
   it: {
     subscribe: "ISCRIVITI",
@@ -134,6 +140,7 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     privacy: "Privacy",
     terms: "Termini",
     shipping: "Spedizione",
+    reservation: "Prenotazioni WhatsApp",
   },
   ja: {
     subscribe: "購読する",
@@ -148,11 +155,12 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     phone: "電話:",
     country: "ペルー",
     brand: "インカトラベルペルー",
-    copyright: "© 2025 Inca Travel Peru. すべての権利が予約���れています。",
+    copyright: "© 2025 Inca Travel Peru. すべての権利が予約されています。",
     license: "観光事業者ライセンス: LIC-2025-001",
     privacy: "プライバシー",
     terms: "利用規約",
     shipping: "発送",
+    reservation: "WhatsApp予約",
   },
   zh: {
     subscribe: "订阅",
@@ -172,6 +180,7 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     privacy: "隐私",
     terms: "条款",
     shipping: "运输",
+    reservation: "WhatsApp预约",
   },
   ru: {
     subscribe: "ПОДПИСАТЬСЯ",
@@ -185,12 +194,13 @@ const footerDictionaries: Record<Locale, FooterDictionary> = {
     address: "Куско, Перу",
     phone: "Телефон:",
     country: "ПЕРУ",
-    brand: "ИНКАТРАВЕЛЬПЕ РУ",
+    brand: "ИНКАТРАВЕЛЬПЕРУ",
     copyright: "© 2025 Inca Travel Peru. Все права защищены.",
     license: "Лицензия туроператора: LIC-2025-001",
     privacy: "Конфиденциальность",
     terms: "Условия",
     shipping: "Доставка",
+    reservation: "Бронирование WhatsApp",
   },
 }
 

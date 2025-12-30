@@ -16,11 +16,11 @@ export default async function HomePage() {
       <div id="reservar">
         <CustomCursor text="+TOURS" navigateTo="/tours">
          <TransportsSection />
+         <PaymentMethodsSection />
           <ProductsSection />
         </CustomCursor>
       </div>
       <FeaturedSection />
-      <PaymentMethodsSection />
       <TestimonialsSection />
     </main>
   )
