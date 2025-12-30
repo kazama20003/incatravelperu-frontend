@@ -61,6 +61,14 @@ export function TransportsSection() {
 
   const displayTransports = transports?.slice(0, 4) || []
 
+  const getFormattedDays = (days: string[] | undefined) => {
+    if (!days || days.length === 0) return ""
+    return days
+      .map((day) => dict.days[day as keyof typeof dict.days])
+      .filter(Boolean)
+      .join(", ")
+  }
+
   return (
     <section id="transports-section" className="w-full bg-background">
       <div ref={dividerRef} className="border-t-8 border-white" />
@@ -136,7 +144,7 @@ export function TransportsSection() {
                         </span>
                       )}
                       {transport.availableDays && transport.availableDays.length > 0 && (
-                        <span className="flex items-center gap-1">📅 {transport.availableDays.length} días</span>
+                        <span className="flex items-center gap-1">📅 {getFormattedDays(transport.availableDays)}</span>
                       )}
                     </div>
                     <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-neon-orange mb-4">

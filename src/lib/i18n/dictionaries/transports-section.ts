@@ -8,6 +8,15 @@ export interface TransportsSectionDictionary {
   reserve: string
   viewDetails: string
   noTransportsAvailable: string
+  days: {
+    monday: string
+    tuesday: string
+    wednesday: string
+    thursday: string
+    friday: string
+    saturday: string
+    sunday: string
+  }
 }
 
 const transportsSectionDictionaries: Record<Locale, TransportsSectionDictionary> = {
@@ -20,6 +29,15 @@ const transportsSectionDictionaries: Record<Locale, TransportsSectionDictionary>
     reserve: "Reservar",
     viewDetails: "Ver Detalles",
     noTransportsAvailable: "No hay transportes disponibles en este momento",
+    days: {
+      monday: "Lunes",
+      tuesday: "Martes",
+      wednesday: "Miércoles",
+      thursday: "Jueves",
+      friday: "Viernes",
+      saturday: "Sábado",
+      sunday: "Domingo",
+    },
   },
   en: {
     title: "Our",
@@ -30,6 +48,15 @@ const transportsSectionDictionaries: Record<Locale, TransportsSectionDictionary>
     reserve: "Reserve",
     viewDetails: "View Details",
     noTransportsAvailable: "No transports available at the moment",
+    days: {
+      monday: "Monday",
+      tuesday: "Tuesday",
+      wednesday: "Wednesday",
+      thursday: "Thursday",
+      friday: "Friday",
+      saturday: "Saturday",
+      sunday: "Sunday",
+    },
   },
   fr: {
     title: "Nos",
@@ -40,6 +67,15 @@ const transportsSectionDictionaries: Record<Locale, TransportsSectionDictionary>
     reserve: "Réserver",
     viewDetails: "Voir Détails",
     noTransportsAvailable: "Aucun transport disponible pour le moment",
+    days: {
+      monday: "Lundi",
+      tuesday: "Mardi",
+      wednesday: "Mercredi",
+      thursday: "Jeudi",
+      friday: "Vendredi",
+      saturday: "Samedi",
+      sunday: "Dimanche",
+    },
   },
   it: {
     title: "I Nostri",
@@ -50,6 +86,15 @@ const transportsSectionDictionaries: Record<Locale, TransportsSectionDictionary>
     reserve: "Prenota",
     viewDetails: "Vedi Dettagli",
     noTransportsAvailable: "Nessun trasporto disponibile al momento",
+    days: {
+      monday: "Lunedì",
+      tuesday: "Martedì",
+      wednesday: "Mercoledì",
+      thursday: "Giovedì",
+      friday: "Venerdì",
+      saturday: "Sabato",
+      sunday: "Domenica",
+    },
   },
   de: {
     title: "Unsere",
@@ -60,6 +105,15 @@ const transportsSectionDictionaries: Record<Locale, TransportsSectionDictionary>
     reserve: "Reservieren",
     viewDetails: "Details Anzeigen",
     noTransportsAvailable: "Derzeit keine Transporte verfügbar",
+    days: {
+      monday: "Montag",
+      tuesday: "Dienstag",
+      wednesday: "Mittwoch",
+      thursday: "Donnerstag",
+      friday: "Freitag",
+      saturday: "Samstag",
+      sunday: "Sonntag",
+    },
   },
   pt: {
     title: "Nossos",
@@ -70,6 +124,15 @@ const transportsSectionDictionaries: Record<Locale, TransportsSectionDictionary>
     reserve: "Reservar",
     viewDetails: "Ver Detalhes",
     noTransportsAvailable: "Nenhum transporte disponível no momento",
+    days: {
+      monday: "Segunda",
+      tuesday: "Terça",
+      wednesday: "Quarta",
+      thursday: "Quinta",
+      friday: "Sexta",
+      saturday: "Sábado",
+      sunday: "Domingo",
+    },
   },
   zh: {
     title: "我们的",
@@ -79,6 +142,15 @@ const transportsSectionDictionaries: Record<Locale, TransportsSectionDictionary>
     reserve: "预订",
     viewDetails: "查看详情",
     noTransportsAvailable: "目前没有可用的运输",
+    days: {
+      monday: "星期一",
+      tuesday: "星期二",
+      wednesday: "星期三",
+      thursday: "星期四",
+      friday: "星期五",
+      saturday: "星期六",
+      sunday: "星期日",
+    },
   },
   ja: {
     title: "私たちの",
@@ -89,6 +161,15 @@ const transportsSectionDictionaries: Record<Locale, TransportsSectionDictionary>
     reserve: "予約",
     viewDetails: "詳細を見る",
     noTransportsAvailable: "現在利用可能な交通はありません",
+    days: {
+      monday: "月曜日",
+      tuesday: "火曜日",
+      wednesday: "水曜日",
+      thursday: "木曜日",
+      friday: "金曜日",
+      saturday: "土曜日",
+      sunday: "日曜日",
+    },
   },
   ru: {
     title: "Наши",
@@ -99,6 +180,15 @@ const transportsSectionDictionaries: Record<Locale, TransportsSectionDictionary>
     reserve: "Забронировать",
     viewDetails: "Посмотреть Детали",
     noTransportsAvailable: "Транспортные услуги недоступны в данный момент",
+    days: {
+      monday: "Понедельник",
+      tuesday: "Вторник",
+      wednesday: "Среда",
+      thursday: "Четверг",
+      friday: "Пятница",
+      saturday: "Суббота",
+      sunday: "Воскресенье",
+    },
   },
 }
 
