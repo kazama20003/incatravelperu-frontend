@@ -54,7 +54,7 @@ const COOKIE_DELETE_OPTIONS = {
   secure: true,
   sameSite: "none" as const,
   path: "/",
-  domain: ".tawantinsuyoperu.com",
+  domain: ".cabanacondecuscobybus.com",
   maxAge: 0,
 };
 
