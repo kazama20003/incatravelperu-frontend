@@ -122,13 +122,23 @@ export function TransportsSection() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
 
-                  <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6 sm:p-8">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6 sm:p-8">
                     <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-white mb-2 uppercase tracking-tighter">
                       {transport.title}
                     </h3>
                     <p className="text-xs sm:text-sm md:text-base text-white/90 leading-relaxed mb-4 line-clamp-2">
                       {transport.description}
                     </p>
+                    <div className="text-xs sm:text-sm text-white/80 mb-3 flex flex-wrap gap-2">
+                      {transport.durationHours && (
+                        <span className="flex items-center gap-1">
+                          ⏱️ {transport.durationHours}h{transport.durationMinutes && `${transport.durationMinutes}m`}
+                        </span>
+                      )}
+                      {transport.availableDays && transport.availableDays.length > 0 && (
+                        <span className="flex items-center gap-1">📅 {transport.availableDays.length} días</span>
+                      )}
+                    </div>
                     <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-neon-orange mb-4">
                       ${transport.currentPrice.toFixed(2)}
                     </p>
