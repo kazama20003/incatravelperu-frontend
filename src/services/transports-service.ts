@@ -56,4 +56,28 @@ export const transportsService = {
     const response = await api.delete<{ message: string }>(`/transports/${id}`)
     return response.data
   },
+  async getTopTransports(lang = "es"): Promise<Transport[]> {
+  const response = await api.get<PaginatedResponse<Transport> | Transport[]>(
+    "/transports/ext/top",
+    { params: { lang } }
+  )
+
+  const result = response.data
+
+  if (Array.isArray(result)) {
+    return result
+  }
+
+  if (result && typeof result === "object") {
+    if ("items" in result && Array.isArray(result.items)) {
+      return result.items
+    }
+    if ("data" in result && Array.isArray(result.data)) {
+      return result.data
+    }
+  }
+
+  return []
+},
+
 }

@@ -4,6 +4,7 @@ import { ProductsSection } from "@/components/home/products-section"
 import { CustomCursor } from "@/components/home/custom-cursor"
 import { PaymentMethodsSection } from "@/components/home/payment-methods-section"
 import { TestimonialsSection } from "@/components/home/testimonials-section"
+import { TransportsSection } from "@/components/home/transports-section"
 
 export default async function HomePage() {
   return (
@@ -18,6 +19,7 @@ export default async function HomePage() {
         </CustomCursor>
       </div>
 
+    <TransportsSection />
       <FeaturedSection />
       <PaymentMethodsSection />
       <TestimonialsSection />

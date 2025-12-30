@@ -102,6 +102,21 @@ export function useUpdateTransport() {
     isPending: mutation.isPending,
   }
 }
+// Hook para obtener los TOP transports
+export function useTopTransports(lang = "es") {
+  const query = useQuery({
+    queryKey: ["transports-top", lang],
+    queryFn: () => transportsService.getTopTransports(lang),
+  })
+
+  return {
+    data: query.data,
+    error: query.error,
+    isLoading: query.isLoading,
+    isValidating: query.isFetching,
+    mutate: query.refetch,
+  }
+}
 
 // DELETE TRANSPORT
 export function useDeleteTransport() {
@@ -124,4 +139,5 @@ export function useDeleteTransport() {
     mutateAsync: mutation.mutateAsync,
     isPending: mutation.isPending,
   }
+  
 }
