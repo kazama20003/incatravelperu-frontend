@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useRef, useEffect, useState } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -38,7 +37,7 @@ export default function AboutPage() {
     lastName: "",
     email: "",
     phone: "",
-    eventType: "Private Event",
+    eventType: "Tour Selection",
     message: "",
     subscribe: false,
   })
@@ -211,7 +210,9 @@ export default function AboutPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log(formData)
+    const whatsappNumber = "+51959784730"
+    const message = `Nombre: ${formData.firstName} ${formData.lastName}%0AEmail: ${formData.email}%0ATeléfono: ${formData.phone}%0ATipo: ${formData.eventType}%0AMensaje: ${formData.message}`
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank")
   }
 
   return (
@@ -272,8 +273,8 @@ export default function AboutPage() {
         <div ref={imagesRef} className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="about-image aspect-4/3 overflow-hidden">
             <Image
-              src="https://res.cloudinary.com/djldb5hqg/image/upload/v1765667021/pexels-ton-souza-4613401_ktsuzv.jpg"
-              alt="Our winemaking family"
+              src="/tourist-group-exploring-arequipa-landmarks-peru-sou.jpg"
+              alt="Tours in Arequipa"
               width={800}
               height={600}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
@@ -281,8 +282,8 @@ export default function AboutPage() {
           </div>
           <div className="about-image aspect-4/3 overflow-hidden">
             <Image
-              src="https://res.cloudinary.com/djldb5hqg/image/upload/v1765667021/pexels-junior-machado-1821155-3452236_lbxulg.jpg"
-              alt="Our honey production"
+              src="/comfortable-modern-tour-bus-driving-through-scenic.jpg"
+              alt="Comfortable Transportation"
               width={800}
               height={600}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
@@ -297,8 +298,8 @@ export default function AboutPage() {
           {/* Image */}
           <div className="aspect-4/5 overflow-hidden">
             <Image
-              src="https://res.cloudinary.com/djldb5hqg/image/upload/v1765667021/pexels-gilmerdiaz-7144192_s4jl6g.jpg"
-              alt="Culinary excellence"
+              src="/family-owned-tour-agency-office-in-arequipa-peru-w.jpg"
+              alt="Incatravelperu Agency"
               width={800}
               height={1000}
               className="w-full h-full object-cover"
@@ -348,15 +349,38 @@ export default function AboutPage() {
 
                 <div className="mt-auto pt-6 space-y-3">
                   {card.phone && (
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                    <a
+                      href={`https://wa.me/${card.phone.replace(/\+/g, "").replace(/\s/g, "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-muted-foreground uppercase tracking-wider hover:text-foreground transition-colors block"
+                    >
                       <span className="text-foreground">PH</span> {card.phone}
-                    </p>
+                    </a>
                   )}
-                  {card.email && <p className="text-xs text-muted-foreground uppercase tracking-wider">{card.email}</p>}
-                  <button className="w-full flex items-center justify-between py-3 border-t border-border text-foreground text-xs font-medium tracking-wider uppercase hover:gap-2 transition-all group">
+                  {card.email && (
+                    <a
+                      href={`mailto:${card.email}`}
+                      className="text-xs text-muted-foreground uppercase tracking-wider hover:text-foreground transition-colors block"
+                    >
+                      {card.email}
+                    </a>
+                  )}
+                  <a
+                    href={
+                      card.phone
+                        ? `https://wa.me/${card.phone.replace(/\+/g, "").replace(/\s/g, "")}`
+                        : card.email
+                          ? `mailto:${card.email}`
+                          : "#"
+                    }
+                    target={card.phone ? "_blank" : undefined}
+                    rel={card.phone ? "noopener noreferrer" : undefined}
+                    className="w-full flex items-center justify-between py-3 border-t border-border text-foreground text-xs font-medium tracking-wider uppercase hover:gap-2 transition-all group"
+                  >
                     {card.action}
                     <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                  </button>
+                  </a>
                 </div>
               </div>
             ),
@@ -418,11 +442,11 @@ export default function AboutPage() {
                   onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
                   className="w-full px-4 py-3 bg-background border border-border text-foreground text-sm focus:outline-none focus:border-foreground transition-colors appearance-none"
                 >
-                  <option>Private Event</option>
-                  <option>Corporate Event</option>
-                  <option>Wedding</option>
-                  <option>Wine Tasting</option>
-                  <option>Restaurant Booking</option>
+                  <option>Tour Selection</option>
+                  <option>Transportation Only</option>
+                  <option>Private Tour</option>
+                  <option>Group Tour</option>
+                  <option>Custom Package</option>
                   <option>Other</option>
                 </select>
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
@@ -461,15 +485,17 @@ export default function AboutPage() {
             </form>
           </div>
 
-          {/* Map / Image */}
+          {/* Map */}
           <div className="relative">
             <div className="aspect-4/3 lg:aspect-auto lg:h-full overflow-hidden">
-              <Image
-                src="/aerial-view-vineyard-peru-sacred-valley-andes-moun.jpg"
-                alt="Our vineyard location"
-                width={800}
-                height={600}
-                className="w-full h-full object-cover"
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3827.284487661072!2d-71.53931602396342!3d-16.39956423773177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91424a480521ca4f%3A0x8898b3c67f08b5e4!2sC.%20San%20Agust%C3%ADn%20210%2C%20Arequipa%2004012!5e0!3m2!1sen!2spe!4v1711234567890!5m2!1sen!2spe"
+                width="100%"
+                height="100%"
+                style={{ border: 0, minHeight: "450px" }}
+                allowFullScreen={true}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
 
@@ -477,9 +503,14 @@ export default function AboutPage() {
             <div className="absolute bottom-6 right-6 bg-background p-6 max-w-xs shadow-lg">
               <p className="text-lg font-serif text-foreground mb-1">{dict.about.about.contact.address.line1}</p>
               <p className="text-lg font-serif text-foreground mb-4">{dict.about.about.contact.address.line2}</p>
-              <button className="inline-flex items-center gap-2 px-6 py-3 border border-foreground text-foreground text-xs font-medium tracking-wider uppercase hover:bg-foreground hover:text-background transition-all">
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=C.+San+Agustín+210,+Arequipa+04012`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-foreground text-foreground text-xs font-medium tracking-wider uppercase hover:bg-foreground hover:text-background transition-all"
+              >
                 {dict.about.about.contact.address.cta}
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -488,8 +519,8 @@ export default function AboutPage() {
       {/* Join Our Team Section */}
       <section ref={joinRef} className="relative h-[50vh] min-h-[400px] overflow-hidden opacity-0">
         <Image
-          src="/professional-chef-cooking-in-restaurant-kitchen-wa.jpg"
-          alt="Join our team"
+          src="/incatravelperu-team-working-together-travel-agency-.jpg"
+          alt="Join Incatravelperu team"
           fill
           className="object-cover"
         />
@@ -501,10 +532,13 @@ export default function AboutPage() {
             <h2 className="text-3xl md:text-4xl font-serif mb-4">{dict.about.about.team.title2}</h2>
             <p className="text-white/70 text-sm mb-2">{dict.about.about.team.description}</p>
             <p className="text-white text-sm mb-6">{dict.about.about.team.email}</p>
-            <button className="inline-flex items-center gap-2 text-white text-xs font-medium tracking-wider uppercase hover:gap-3 transition-all border-b border-white pb-1">
+            <a
+              href={`mailto:${dict.about.about.team.email}`}
+              className="inline-flex items-center gap-2 text-white text-xs font-medium tracking-wider uppercase hover:gap-3 transition-all border-b border-white pb-1"
+            >
               {dict.about.about.team.cta}
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </a>
           </div>
         </div>
       </section>
