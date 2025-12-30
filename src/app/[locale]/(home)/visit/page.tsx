@@ -51,11 +51,13 @@ function VenueCard({ venue, index, dict }: { venue: Venue; index: number; dict: 
     return () => ctx.revert()
   }, [])
 
+  const whatsappUrl = "https://wa.me/51959784730"
+
   return (
     <div ref={cardRef} className="group opacity-0 py-6">
       <div className={`flex flex-col lg:flex-row ${isEven ? "" : "lg:flex-row-reverse"}`}>
         {/* Image Section */}
-        <div className="relative w-full lg:w-1/2 aspect-4/3 overflow-hidden">
+        <div className="relative w-full lg:w-1/2 aspect-[4/3] overflow-hidden">
           <Image
             src={venue.image || "/placeholder.svg"}
             alt={venue.title}
@@ -84,14 +86,24 @@ function VenueCard({ venue, index, dict }: { venue: Venue; index: number; dict: 
             </div>
 
             <div className="flex flex-wrap gap-4 pt-2">
-              <button className="group/btn inline-flex items-center gap-3 px-6 py-3 bg-primary text-primary-foreground text-xs font-medium tracking-widest uppercase transition-all hover:scale-[1.02] active:scale-[0.98]">
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/btn inline-flex items-center gap-3 px-6 py-3 bg-primary text-primary-foreground text-xs font-medium tracking-widest uppercase transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
                 {dict.visit.buttons.reserveNow}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
-              </button>
+              </a>
 
-              <button className="inline-flex items-center gap-3 px-6 py-3 border border-foreground/20 text-foreground text-xs font-medium tracking-widest uppercase hover:bg-foreground hover:text-background transition-all hover:scale-[1.02] active:scale-[0.98]">
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-6 py-3 border border-foreground/20 text-foreground text-xs font-medium tracking-widest uppercase hover:bg-foreground hover:text-background transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
                 {dict.visit.buttons.learnMore}
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -103,7 +115,7 @@ function VenueCard({ venue, index, dict }: { venue: Venue; index: number; dict: 
 export default function VisitPage() {
   const pathname = usePathname()
   const currentLocaleFromPath = pathname.split("/")[1]
-  const currentLocale: Locale = isValidLocale(currentLocaleFromPath) ? currentLocaleFromPath : defaultLocale
+  const currentLocale: Locale = isValidLocale(currentLocaleFromPath) ? (currentLocaleFromPath as Locale) : defaultLocale
 
   const dict = getDictionary(currentLocale)
 
@@ -289,6 +301,8 @@ export default function VisitPage() {
     return () => ctx.revert()
   }, [])
 
+  const whatsappUrl = "https://wa.me/51959784730"
+
   return (
     <main className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -398,7 +412,7 @@ export default function VisitPage() {
       {/* Map Section */}
       <section className="relative h-[50vh] bg-muted">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3278.5!2d138.55!3d-35.22!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDEzJzEyLjAiUyAxMzjCsDMzJzAwLjAiRQ!5e0!3m2!1sen!2sau!4v1!5m2!1sen!2sau"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3827.245842183818!2d-71.539308!3d-16.398579!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91424a59f635f60f%3A0x6a0f0f5f5f5f5f5f!2sC.%20San%20Agust%C3%ADn%20210%2C%20Arequipa%2004012!5e0!3m2!1sen!2spe!4v1710000000000!5m2!1sen!2spe"
           width="100%"
           height="100%"
           style={{ border: 0 }}
@@ -410,10 +424,15 @@ export default function VisitPage() {
         <div className="absolute bottom-8 left-8 bg-background p-6 shadow-lg max-w-sm">
           <h3 className="text-lg font-serif text-foreground mb-2">{dict.visit.map.businessName}</h3>
           <p className="text-sm text-muted-foreground mb-4">{dict.visit.map.address}</p>
-          <button className="inline-flex items-center gap-2 text-xs font-medium tracking-widest uppercase text-accent hover:text-foreground transition-colors">
+          <a
+            href="https://maps.google.com/?q=C.+San+Agustín+210,+Arequipa+04012,+Peru"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs font-medium tracking-widest uppercase text-accent hover:text-foreground transition-colors"
+          >
             {dict.visit.map.getDirections}
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </a>
         </div>
       </section>
 
@@ -424,13 +443,23 @@ export default function VisitPage() {
           <h2 className="text-4xl md:text-5xl font-serif mb-6">{dict.visit.cta.title}</h2>
           <p className="text-primary-foreground/70 mb-8 max-w-xl mx-auto">{dict.visit.cta.description}</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="inline-flex items-center gap-3 px-10 py-5 bg-accent text-accent-foreground text-xs font-medium tracking-widest uppercase hover:bg-accent/90 transition-colors">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-10 py-5 bg-accent text-accent-foreground text-xs font-medium tracking-widest uppercase hover:bg-accent/90 transition-colors"
+            >
               {dict.visit.cta.primaryButton}
               <ArrowRight className="w-4 h-4" />
-            </button>
-            <button className="inline-flex items-center gap-3 px-10 py-5 border border-primary-foreground/30 text-primary-foreground text-xs font-medium tracking-widest uppercase hover:bg-primary-foreground hover:text-primary transition-colors">
+            </a>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-10 py-5 border border-primary-foreground/30 text-primary-foreground text-xs font-medium tracking-widest uppercase hover:bg-primary-foreground hover:text-primary transition-colors"
+            >
               {dict.visit.cta.secondaryButton}
-            </button>
+            </a>
           </div>
         </div>
       </section>
