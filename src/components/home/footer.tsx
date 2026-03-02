@@ -49,6 +49,7 @@ export function Footer() {
                   <Link
                     key={item.name}
                     href={item.href}
+                    prefetch={false}
                     className="text-sm font-black uppercase hover:text-[#FF4D00] transition-colors tracking-widest"
                   >
                     {item.name}
@@ -60,6 +61,7 @@ export function Footer() {
                   <Link
                     key={item.name}
                     href={item.href}
+                    prefetch={false}
                     className="text-sm font-black uppercase hover:text-[#FF4D00] transition-colors tracking-widest"
                   >
                     {item.name}

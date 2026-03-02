@@ -160,6 +160,7 @@ export function ProductsSection() {
                       />
                       <Link
                         href={`/${locale}/tours/${tour.slug}`}
+                        prefetch={false}
                         className="px-4 sm:px-5 py-2 bg-black text-neon-orange font-black text-xs sm:text-sm uppercase rounded-full hover:bg-neon-orange hover:text-black transition-all duration-200 whitespace-nowrap tracking-widest"
                       >
                         {dict.viewDetails}

@@ -128,6 +128,7 @@ const Header = () => {
                   <Link
                     key={item.name}
                     href={item.href}
+                    prefetch={false}
                     className="text-xs sm:text-sm font-black text-foreground uppercase tracking-widest hover:text-neon-orange transition-colors relative group whitespace-nowrap"
                   >
                     {item.name}
@@ -169,13 +170,13 @@ const Header = () => {
                 <div className="h-8 w-0.5 bg-black/30 mx-1 hidden lg:block"></div>
 
                 {user ? (
-                  <Link href={`/${currentLocale}/users/profile`}>
+                  <Link href={`/${currentLocale}/users/profile`} prefetch={false}>
                     <button className="px-4 sm:px-5 py-2 bg-neon-orange text-black font-black text-xs sm:text-sm uppercase rounded-full hover:bg-black hover:text-neon-orange transition-all duration-200 whitespace-nowrap">
                       {dict.common.reservations}
                     </button>
                   </Link>
                 ) : (
-                  <Link href={`/${currentLocale}/login`}>
+                  <Link href={`/${currentLocale}/login`} prefetch={false}>
                     <button className="px-4 sm:px-5 py-2 bg-black text-white font-black text-xs sm:text-sm uppercase rounded-full hover:bg-neon-orange hover:text-black transition-all duration-200 whitespace-nowrap">
                       {dict.common.login}
                     </button>
@@ -226,6 +227,7 @@ const Header = () => {
             <Link
               key={item.name}
               href={item.href}
+              prefetch={false}
               className={`text-3xl sm:text-6xl font-black text-black uppercase tracking-tighter hover:italic transition-all duration-300 transform ${
                 isMenuOpen ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
               }`}
