@@ -23,6 +23,7 @@ export function ProductsSection() {
   const imagesContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const animations: gsap.core.Tween[] = []
     const elements = [
       titleRef.current,
       subtitleRef.current,
@@ -39,7 +40,7 @@ export function ProductsSection() {
         y: 50,
       })
 
-      gsap.to(el, {
+      const animation = gsap.to(el, {
         opacity: 1,
         y: 0,
         duration: 0.6,
@@ -52,10 +53,14 @@ export function ProductsSection() {
           markers: false,
         },
       })
+      animations.push(animation)
     })
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
+      animations.forEach((animation) => {
+        animation.scrollTrigger?.kill()
+        animation.kill()
+      })
     }
   }, [])
 

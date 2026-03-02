@@ -9,12 +9,12 @@ export function Footer() {
   const dict = dictionary.footer
 
   const navItems = [
-    { name: dict.tours, href: `/tours` },
-    { name: dict.transports, href: `/transports` },
-    { name: dict.visit, href: `/visit` },
-    { name: dict.club, href: `/club` },
-    { name: dict.events, href: `/events` },
-    { name: dict.about, href: `/about` },
+    { name: dict.tours, href: `/${currentLocale}/tours` },
+    { name: dict.transports, href: `/${currentLocale}/transports` },
+    { name: dict.visit, href: `/${currentLocale}/visit` },
+    { name: dict.club, href: `/${currentLocale}/club` },
+    { name: dict.events, href: `/${currentLocale}/events` },
+    { name: dict.about, href: `/${currentLocale}/about` },
   ]
 
   return (

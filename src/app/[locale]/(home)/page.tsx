@@ -6,7 +6,13 @@ import { PaymentMethodsSection } from "@/components/home/payment-methods-section
 import { TestimonialsSection } from "@/components/home/testimonials-section"
 import { TransportsSection } from "@/components/home/transports-section"
 
-export default async function HomePage() {
+interface HomePageProps {
+  params: Promise<{ locale: string }>
+}
+
+export default async function HomePage({ params }: HomePageProps) {
+  const { locale } = await params
+
   return (
     <main className="min-h-screen bg-background">
       <CustomCursor scrollToId="reservar">
@@ -14,7 +20,7 @@ export default async function HomePage() {
       </CustomCursor>
 
       <div id="reservar">
-        <CustomCursor text="+TOURS" navigateTo="/tours">
+        <CustomCursor text="+TOURS" navigateTo={`/${locale}/tours`}>
          <TransportsSection />
          <PaymentMethodsSection />
           <ProductsSection />

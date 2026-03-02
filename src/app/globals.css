@@ -1,5 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "lenis/dist/lenis.css";
+
+html.lenis {
+  scroll-behavior: auto !important;
+}
 
 @custom-variant dark (&:is(.dark *));
 

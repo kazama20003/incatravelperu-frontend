@@ -9,7 +9,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 gsap.registerPlugin(ScrollTrigger)
 
 export function HeroSection() {
-  const { dictionary,  } = useTranslation()
+  const { locale, dictionary } = useTranslation()
   const translations = dictionary.heroSection
   const router = useRouter()
 
@@ -57,14 +57,17 @@ export function HeroSection() {
   }, [])
 
   useEffect(() => {
+    let buttonsAnimation: gsap.core.Tween | null = null
+    let buttonsTrigger: ScrollTrigger | null = null
+
     if (buttonsRef.current) {
       gsap.set(buttonsRef.current, { y: 100, opacity: 0 })
 
-      ScrollTrigger.create({
+      buttonsTrigger = ScrollTrigger.create({
         trigger: buttonsRef.current,
         start: "top 90%",
         onEnter: () => {
-          gsap.to(buttonsRef.current, {
+          buttonsAnimation = gsap.to(buttonsRef.current, {
             y: 0,
             opacity: 1,
             duration: 0.8,
@@ -76,7 +79,8 @@ export function HeroSection() {
     }
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
+      buttonsTrigger?.kill()
+      buttonsAnimation?.kill()
     }
   }, [])
 
@@ -109,7 +113,7 @@ export function HeroSection() {
   }
 
   const handleShopNow = () => {
-    router.push(`/tours`)
+    router.push(`/${locale}/tours`)
   }
 
   return (

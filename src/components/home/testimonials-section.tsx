@@ -56,36 +56,27 @@ export function TestimonialsSection() {
     const carousel = carouselRef.current
     if (!carousel) return
 
-    const cardWidth = carousel.children[0]?.getBoundingClientRect().width || 0
+    const firstCard = carousel.children[0] as HTMLElement | undefined
+    if (!firstCard) return
+
+    const cardWidth = firstCard.getBoundingClientRect().width
     const gap = 16
 
-    const updateCarousel = (index: number) => {
-      gsap.to(carousel, {
-        x: -(index * (cardWidth + gap)),
-        duration: 0.6,
-        ease: "power2.inOut",
-      })
+    const animation = gsap.to(carousel, {
+      x: -(currentIndex * (cardWidth + gap)),
+      duration: 0.6,
+      ease: "power2.inOut",
+    })
+
+    return () => {
+      animation.kill()
     }
+  }, [currentIndex])
 
-    const handlePrev = () => {
-      const newIndex = Math.max(0, currentIndex - 1)
-      setCurrentIndex(newIndex)
-      updateCarousel(newIndex)
-    }
+  useEffect(() => {
+    if (!containerRef.current) return
 
-    const handleNext = () => {
-      const newIndex = Math.min(testimonials.length - 1, currentIndex + 1)
-      setCurrentIndex(newIndex)
-      updateCarousel(newIndex)
-    }
-
-    const prevBtn = containerRef.current?.querySelector("[data-prev]")
-    const nextBtn = containerRef.current?.querySelector("[data-next]")
-
-    prevBtn?.addEventListener("click", handlePrev)
-    nextBtn?.addEventListener("click", handleNext)
-
-    gsap.fromTo(
+    const entranceAnimation = gsap.fromTo(
       containerRef.current,
       { opacity: 0, y: 50 },
       {
@@ -103,10 +94,18 @@ export function TestimonialsSection() {
     )
 
     return () => {
-      prevBtn?.removeEventListener("click", handlePrev)
-      nextBtn?.removeEventListener("click", handleNext)
+      entranceAnimation.scrollTrigger?.kill()
+      entranceAnimation.kill()
     }
-  }, [currentIndex, testimonials.length])
+  }, [])
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => Math.max(0, prev - 1))
+  }
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => Math.min(testimonials.length - 1, prev + 1))
+  }
 
   return (
     <section ref={containerRef} className="w-full bg-white py-16 border-l-8 border-r-8 border-white">
@@ -117,6 +116,7 @@ export function TestimonialsSection() {
           <div className="flex gap-2">
             <button
               data-prev
+              onClick={handlePrev}
               className="w-10 h-10 border-2 border-black text-black bg-white hover:bg-black hover:text-white transition-all duration-300 flex items-center justify-center font-black"
               aria-label="Previous"
             >
@@ -124,6 +124,7 @@ export function TestimonialsSection() {
             </button>
             <button
               data-next
+              onClick={handleNext}
               className="w-10 h-10 border-2 border-black text-black bg-white hover:bg-black hover:text-white transition-all duration-300 flex items-center justify-center font-black"
               aria-label="Next"
             >

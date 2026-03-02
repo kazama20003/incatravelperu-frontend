@@ -62,6 +62,13 @@ const Header = () => {
   ]
 
   const switchLocale = (newLocale: Locale) => {
+    setIsLangMenuOpen(false)
+    setIsMenuOpen(false)
+
+    if (newLocale === currentLocale) {
+      return
+    }
+
     const segments = pathname.split("/").filter(Boolean)
 
     if (isValidLocale(segments[0])) {
@@ -69,8 +76,6 @@ const Header = () => {
     }
 
     const pathWithoutLocale = segments.length > 0 ? "/" + segments.join("/") : ""
-
-    setIsLangMenuOpen(false)
     router.push(`/${newLocale}${pathWithoutLocale}`)
   }
 
