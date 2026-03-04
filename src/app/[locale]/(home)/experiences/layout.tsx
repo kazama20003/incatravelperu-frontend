@@ -12,7 +12,7 @@ export async function generateMetadata({
   return generateLocaleSEO(locale, "home")
 }
 
-export default function ClubLayout({
+export default function ExperiencesLayout({
   children,
 }: {
   children: React.ReactNode

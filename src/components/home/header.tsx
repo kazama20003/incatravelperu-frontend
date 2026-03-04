@@ -41,11 +41,23 @@ const Header = () => {
 
   const { locale: currentLocale, dictionary: dict } = useTranslation()
 
+  const experiencesLabelByLocale: Record<Locale, string> = {
+    es: "EXPERIENCIAS",
+    en: "EXPERIENCES",
+    fr: "EXPERIENCES",
+    it: "ESPERIENZE",
+    de: "ERLEBNISSE",
+    pt: "EXPERIENCIAS",
+    zh: "体验",
+    ja: "体験",
+    ru: "ОПЫТ",
+  }
+
   const navItems = [
     { name: dict.nav.tours, href: `/${currentLocale}/tours` },
     { name: dict.nav.transports, href: `/${currentLocale}/transports` },
     { name: dict.nav.visit, href: `/${currentLocale}/visit` },
-    { name: dict.nav.club, href: `/${currentLocale}/club` },
+    { name: experiencesLabelByLocale[currentLocale], href: `/${currentLocale}/experiences` },
     { name: dict.nav.events, href: `/${currentLocale}/events` },
     { name: dict.nav.about, href: `/${currentLocale}/about` },
   ]
