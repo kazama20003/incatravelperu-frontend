@@ -61,7 +61,7 @@ const esCopy: ExperiencesPageCopy = {
   hero: {
     subtitle: "Historias Reales",
     title: "Experiencias de Nuestros Clientes, Turistas y Viajeros",
-    description: "Momentos compartidos por viajeros que vivieron PerÃº con nosotros.",
+    description: "Momentos compartidos por viajeros que vivieron Perú con nosotros.",
   },
   ctaBar: {
     primary: "Quiero Vivir Esta Experiencia",
@@ -71,7 +71,7 @@ const esCopy: ExperiencesPageCopy = {
     title: "Experiencias de",
     titleItalic: "Clientes, Turistas y Viajeros",
     description:
-      "Cada video y testimonio refleja aventuras autÃ©nticas en Cusco, el Valle Sagrado y Machu Picchu, guiadas por nuestro equipo local.",
+      "Cada video y testimonio refleja aventuras auténticas en Cusco, el Valle Sagrado y Machu Picchu, guiadas por nuestro equipo local.",
   },
   card: {
     actionText: "Ver Historia",
@@ -80,63 +80,63 @@ const esCopy: ExperiencesPageCopy = {
   experiences: [
     {
       title: "Amanecer en Machu Picchu",
-      description: "Una pareja comparte cÃ³mo fue su primera vista de la ciudadela al amanecer.",
+      description: "Una pareja comparte cómo fue su primera vista de la ciudadela al amanecer.",
     },
     {
-      title: "Ruta gastronÃ³mica en Cusco",
+      title: "Ruta gastronómica en Cusco",
       description: "Turistas cuentan su recorrido por sabores locales y mercados tradicionales.",
     },
     {
-      title: "Aventura en la MontaÃ±a de Colores",
-      description: "Grupo de viajeros narra su experiencia de altura y paisajes Ãºnicos.",
+      title: "Aventura en la Montaña de Colores",
+      description: "Grupo de viajeros narra su experiencia de altura y paisajes únicos.",
     },
     {
       title: "Valle Sagrado en familia",
-      description: "Familias resaltan la organizaciÃ³n, seguridad y comodidad del itinerario.",
+      description: "Familias resaltan la organización, seguridad y comodidad del itinerario.",
     },
     {
-      title: "ConexiÃ³n cultural con comunidades",
+      title: "Conexión cultural con comunidades",
       description: "Viajeros describen talleres y encuentros con artesanos locales.",
     },
     {
       title: "Atardecer inolvidable en los Andes",
-      description: "Testimonio sobre vistas panorÃ¡micas y acompaÃ±amiento personalizado.",
+      description: "Testimonio sobre vistas panorámicas y acompañamiento personalizado.",
     },
   ],
   faq: {
     title: "Preguntas",
     titleItalic: "Frecuentes",
-    description: "Respuestas rÃ¡pidas sobre cÃ³mo participar en nuestras experiencias turÃ­sticas.",
+    description: "Respuestas rápidas sobre cómo participar en nuestras experiencias turísticas.",
     items: [
       {
-        question: "Â¿CÃ³mo reservo una experiencia?",
+        question: "¿Cómo reservo una experiencia?",
         answer:
-          "Puedes reservar desde nuestra web o por WhatsApp. Te ayudamos a elegir la experiencia ideal segÃºn tu tiempo y presupuesto.",
+          "Puedes reservar desde nuestra web o por WhatsApp. Te ayudamos a elegir la experiencia ideal según tu tiempo y presupuesto.",
       },
       {
-        question: "Â¿Incluyen transporte y guÃ­a?",
+        question: "¿Incluyen transporte y guía?",
         answer:
-          "SÃ­. La mayorÃ­a de experiencias incluyen recojo, transporte turÃ­stico y guÃ­a profesional. Cada detalle aparece en la descripciÃ³n antes de reservar.",
+          "Sí. La mayoría de experiencias incluyen recojo, transporte turístico y guía profesional. Cada detalle aparece en la descripción antes de reservar.",
       },
       {
-        question: "Â¿Son aptas para familias?",
+        question: "¿Son aptas para familias?",
         answer:
-          "Tenemos rutas para familias, parejas y grupos. TambiÃ©n adaptamos opciones para niÃ±os y adultos mayores.",
+          "Tenemos rutas para familias, parejas y grupos. También adaptamos opciones para niños y adultos mayores.",
       },
       {
-        question: "Â¿Puedo personalizar mi itinerario?",
+        question: "¿Puedo personalizar mi itinerario?",
         answer:
-          "SÃ­. DiseÃ±amos experiencias privadas y personalizadas segÃºn tus intereses, fechas y ritmo de viaje.",
+          "Sí. Diseñamos experiencias privadas y personalizadas según tus intereses, fechas y ritmo de viaje.",
       },
       {
-        question: "Â¿Con cuÃ¡nta anticipaciÃ³n debo reservar?",
+        question: "¿Con cuánta anticipación debo reservar?",
         answer:
-          "Recomendamos reservar con 7 a 15 dÃ­as de anticipaciÃ³n, sobre todo en temporada alta y feriados.",
+          "Recomendamos reservar con 7 a 15 días de anticipación, sobre todo en temporada alta y feriados.",
       },
       {
-        question: "Â¿QuÃ© pasa si cambia el clima?",
+        question: "¿Qué pasa si cambia el clima?",
         answer:
-          "Monitoreamos las condiciones diariamente. Si una ruta no es segura, te ofrecemos reprogramaciÃ³n o una alternativa equivalente.",
+          "Monitoreamos las condiciones diariamente. Si una ruta no es segura, te ofrecemos reprogramación o una alternativa equivalente.",
       },
     ],
   },
