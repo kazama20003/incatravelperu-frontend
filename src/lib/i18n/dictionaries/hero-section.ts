@@ -1,4 +1,15 @@
-const heroSectionDictionaries = {
+export interface HeroSectionDictionary {
+  eyebrow: string
+  title: string
+  titleLine2: string
+  description: string
+  whatsAppMessage: string
+  reserveWhatsApp1: string
+  reserveWhatsApp2: string
+  shopNow: string
+}
+
+const heroSectionDictionaries: Record<string, HeroSectionDictionary> = {
   es: {
     eyebrow: "Trekking personalizado en Arequipa",
     title: "Trekking en el Cañón del Colca",
@@ -89,9 +100,7 @@ const heroSectionDictionaries = {
     reserveWhatsApp2: "Бронь WhatsApp 997 407 040",
     shopNow: "Смотреть туры",
   },
-} as const
-
-export type HeroSectionDictionary = (typeof heroSectionDictionaries)["es"]
+}
 
 export function getHeroSectionDictionary(locale: string): HeroSectionDictionary {
   return heroSectionDictionaries[locale as keyof typeof heroSectionDictionaries] || heroSectionDictionaries.es
