@@ -19,6 +19,81 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
 }
 
+const ROUTE_COPY = {
+  es: {
+    routeItinerary: "Itinerario del transporte",
+    routeSummary: "Resumen de la ruta",
+    routeStops: "Paradas y pasos",
+    stopLabel: "Parada",
+    noRouteAvailable: "Este transporte no tiene un itinerario detallado disponible.",
+    coordinates: "Coordenadas",
+  },
+  en: {
+    routeItinerary: "Transport itinerary",
+    routeSummary: "Route summary",
+    routeStops: "Stops and route steps",
+    stopLabel: "Stop",
+    noRouteAvailable: "This transport does not have a detailed itinerary available.",
+    coordinates: "Coordinates",
+  },
+  fr: {
+    routeItinerary: "Itineraire du transport",
+    routeSummary: "Resume de l'itineraire",
+    routeStops: "Arrets et etapes",
+    stopLabel: "Arret",
+    noRouteAvailable: "Ce transport ne dispose pas d'un itineraire detaille.",
+    coordinates: "Coordonnees",
+  },
+  it: {
+    routeItinerary: "Itinerario del trasporto",
+    routeSummary: "Riepilogo del percorso",
+    routeStops: "Fermate e tappe",
+    stopLabel: "Fermata",
+    noRouteAvailable: "Questo trasporto non ha un itinerario dettagliato disponibile.",
+    coordinates: "Coordinate",
+  },
+  de: {
+    routeItinerary: "Transportverlauf",
+    routeSummary: "Routenuebersicht",
+    routeStops: "Stopps und Etappen",
+    stopLabel: "Stopp",
+    noRouteAvailable: "Fuer diesen Transport ist kein detaillierter Routenplan verfuegbar.",
+    coordinates: "Koordinaten",
+  },
+  pt: {
+    routeItinerary: "Itinerario do transporte",
+    routeSummary: "Resumo da rota",
+    routeStops: "Paradas e etapas",
+    stopLabel: "Parada",
+    noRouteAvailable: "Este transporte nao possui um itinerario detalhado disponivel.",
+    coordinates: "Coordenadas",
+  },
+  zh: {
+    routeItinerary: "交通行程",
+    routeSummary: "路线概览",
+    routeStops: "停靠点与路线步骤",
+    stopLabel: "停靠点",
+    noRouteAvailable: "该交通服务暂无详细行程信息。",
+    coordinates: "坐标",
+  },
+  ja: {
+    routeItinerary: "交通の行程",
+    routeSummary: "ルート概要",
+    routeStops: "停車地点と行程",
+    stopLabel: "停車地点",
+    noRouteAvailable: "この交通サービスには詳細な行程がありません。",
+    coordinates: "座標",
+  },
+  ru: {
+    routeItinerary: "Маршрут транспорта",
+    routeSummary: "Обзор маршрута",
+    routeStops: "Остановки и этапы",
+    stopLabel: "Остановка",
+    noRouteAvailable: "Для этого транспорта нет подробного маршрута.",
+    coordinates: "Координаты",
+  },
+} as const
+
 function generateAvailableDates(availableDays: WeekDay[] | undefined, daysAhead = 90): string[] {
   if (!availableDays || availableDays.length === 0) return []
 
@@ -57,6 +132,7 @@ export default function TransportDetailPage({
   const locale: Locale = isValidLocale(localeParam) ? localeParam : defaultLocale
   const dictionary = getTransportsDictionary(locale)
   const t = dictionary.detail
+  const routeCopy = ROUTE_COPY[locale]
 
   const { data: transport, isLoading } = useTransportBySlug(slug, locale)
 
@@ -187,6 +263,13 @@ export default function TransportDetailPage({
   const mainImage = transport.images?.[0]?.url || "/placeholder.svg"
   const availableDates = generateAvailableDates(transport.availableDays)
   const hasAvailableDates = availableDates.length > 0
+  const translatedRouteDescription =
+    transport.routeDescriptionTranslations?.[locale] || transport.routeDescription || transport.description || ""
+  const routeSteps =
+    transport.route?.slice().sort((a, b) => a.order - b.order).map((step) => ({
+      ...step,
+      displayName: step.translations?.[locale] || step.name,
+    })) || []
 
   const formatDuration = () => {
     const parts = []
@@ -394,6 +477,88 @@ export default function TransportDetailPage({
               <div className="opacity-0">
                 <h3 className="text-2xl font-serif text-foreground mb-4">{t.fullDescription}</h3>
                 <p className="text-muted-foreground leading-relaxed">{transport.description}</p>
+              </div>
+
+              {/* Route Itinerary */}
+              <div className="opacity-0">
+                <h3 className="text-2xl font-serif text-foreground mb-4">{routeCopy.routeItinerary}</h3>
+
+                {translatedRouteDescription && (
+                  <div className="mb-8">
+                    <div className="flex items-center gap-2 text-muted-foreground mb-3">
+                      <Bus className="w-4 h-4" />
+                      <span className="text-xs tracking-widest uppercase">{routeCopy.routeSummary}</span>
+                    </div>
+                    <p className="text-muted-foreground leading-relaxed">{translatedRouteDescription}</p>
+                  </div>
+                )}
+
+                {routeSteps.length > 0 ? (
+                  <div>
+                    <div className="flex items-center gap-2 text-muted-foreground mb-4">
+                      <MapPin className="w-4 h-4" />
+                      <span className="text-xs tracking-widest uppercase">{routeCopy.routeStops}</span>
+                    </div>
+
+                    <div className="space-y-4">
+                      {routeSteps.map((step, index) => (
+                        <div key={`${step.order}-${step.name}-${index}`} className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-4 border border-border bg-background p-4">
+                          <div className="relative overflow-hidden bg-muted aspect-[4/3] md:aspect-square">
+                            {step.image?.url ? (
+                              <Image
+                                src={step.image.url}
+                                alt={step.displayName}
+                                fill
+                                className="object-cover"
+                              />
+                            ) : (
+                              <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
+                                <MapPin className="w-6 h-6" />
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="flex flex-col justify-between gap-4">
+                            <div>
+                              <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
+                                {routeCopy.stopLabel} {step.order}
+                              </p>
+                              <h4 className="text-xl font-serif text-foreground">{step.displayName}</h4>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                              <div>
+                                <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                                  {t.origin}
+                                </p>
+                                <p className="text-foreground">{index === 0 ? transport.origin.name : routeSteps[index - 1].displayName}</p>
+                              </div>
+                              <div>
+                                <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                                  {t.destination}
+                                </p>
+                                <p className="text-foreground">
+                                  {index === routeSteps.length - 1 ? transport.destination.name : routeSteps[index + 1].displayName}
+                                </p>
+                              </div>
+                            </div>
+
+                            <div>
+                              <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                                {routeCopy.coordinates}
+                              </p>
+                              <p className="text-muted-foreground">
+                                {step.lat}, {step.lng}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground leading-relaxed">{routeCopy.noRouteAvailable}</p>
+                )}
               </div>
 
               {/* Vehicle Details */}
