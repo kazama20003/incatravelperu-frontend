@@ -51,7 +51,7 @@ function VenueCard({ venue, index, dict }: { venue: Venue; index: number; dict: 
     return () => ctx.revert()
   }, [])
 
-  const whatsappUrl = "https://wa.me/51959784730"
+  const whatsappUrl = "https://wa.me/51959748730"
 
   return (
     <div ref={cardRef} className="group opacity-0 py-6">
@@ -301,7 +301,7 @@ export default function VisitPage() {
     return () => ctx.revert()
   }, [])
 
-  const whatsappUrl = "https://wa.me/51959784730"
+  const whatsappUrl = "https://wa.me/51959748730"
 
   return (
     <main className="min-h-screen bg-background">

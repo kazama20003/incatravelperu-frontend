@@ -210,7 +210,7 @@ export default function AboutPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const whatsappNumber = "+51959784730"
+    const whatsappNumber = "51959748730"
     const message = `Nombre: ${formData.firstName} ${formData.lastName}%0AEmail: ${formData.email}%0ATeléfono: ${formData.phone}%0ATipo: ${formData.eventType}%0AMensaje: ${formData.message}`
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank")
   }

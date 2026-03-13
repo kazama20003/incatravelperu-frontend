@@ -19,6 +19,10 @@ import { getFeaturedSectionDictionary, type FeaturedSectionDictionary } from "./
 import { getProductsSectionDictionary, type ProductsSectionDictionary } from "./dictionaries/products-section"
 import { getTestimonialsDictionary, type TestimonialsDictionary } from "./dictionaries/testimonials"
 import { getPaymentMethodsDictionary, type PaymentMethodsDictionary } from "./dictionaries/payment-methods"
+import {
+  getPlausibleAnalyticsDictionary,
+  type PlausibleAnalyticsDictionary,
+} from "./dictionaries/plausible-analytics"
 import { getTransportsSectionDictionary, type TransportsSectionDictionary } from "./dictionaries/transports-section"
 import { getFooterDictionary, type FooterDictionary } from "./dictionaries/footer"
 
@@ -35,6 +39,7 @@ export interface DictionarySchema extends GlobalDictionary {
   productsSection: ProductsSectionDictionary
   testimonials: TestimonialsDictionary
   paymentMethods: PaymentMethodsDictionary
+  plausibleAnalytics: PlausibleAnalyticsDictionary
   transportsSection: TransportsSectionDictionary
   footer: FooterDictionary
 }
@@ -61,6 +66,7 @@ export function getDictionary(locale: Locale): DictionarySchema {
     productsSection: getProductsSectionDictionary(locale),
     testimonials: getTestimonialsDictionary(locale),
     paymentMethods: getPaymentMethodsDictionary(locale),
+    plausibleAnalytics: getPlausibleAnalyticsDictionary(locale),
     transportsSection: getTransportsSectionDictionary(locale),
 
     // Footer completo (sobrescribe el footer básico del GlobalDictionary)
@@ -81,5 +87,6 @@ export {
   getProductsSectionDictionary,
   getTestimonialsDictionary,
   getPaymentMethodsDictionary,
+  getPlausibleAnalyticsDictionary,
   getTransportsSectionDictionary,
 }

@@ -91,12 +91,12 @@ export function Footer() {
               <span className="flex items-center gap-2">
                 <MessageCircle className="h-4 w-4" />
                 <a
-                  href="https://wa.me/51959784730"
+                  href="https://wa.me/51959748730"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-[#FF4D00] transition-colors"
                 >
-                  +51 959 784 730
+                  +51 959 748 730
                 </a>
               </span>
               <span className="flex items-center gap-2">

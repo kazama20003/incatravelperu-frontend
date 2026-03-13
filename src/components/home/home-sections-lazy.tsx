@@ -85,6 +85,14 @@ const FeaturedSection = dynamic(
   },
 )
 
+const PlausibleAnalyticsSection = dynamic(
+  () => import("@/components/home/plausible-analytics-section").then((mod) => mod.PlausibleAnalyticsSection),
+  {
+    ssr: false,
+    loading: () => <SectionSkeleton minHeightClassName="min-h-[55vh]" />,
+  },
+)
+
 const TestimonialsSection = dynamic(
   () => import("@/components/home/testimonials-section").then((mod) => mod.TestimonialsSection),
   {
@@ -112,6 +120,10 @@ export function HomeSectionsLazy({ locale }: HomeSectionsLazyProps) {
 
       <LazyMount minHeightClassName="min-h-[75vh]" rootMargin="300px 0px">
         <FeaturedSection />
+      </LazyMount>
+
+      <LazyMount minHeightClassName="min-h-[55vh]" rootMargin="280px 0px">
+        <PlausibleAnalyticsSection />
       </LazyMount>
 
       <LazyMount minHeightClassName="min-h-[65vh]" rootMargin="250px 0px">
