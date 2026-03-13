@@ -2,9 +2,27 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
+import Link from "next/link"
+import Image from "next/image"
 import { toast } from "sonner"
+import {
+  ArrowLeft,
+  Clock,
+  ImageIcon,
+  Info,
+  Languages,
+  Loader2,
+  MapPin,
+  Plus,
+  Route,
+  Save,
+  Trash2,
+  Upload,
+  X,
+} from "lucide-react"
+
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -14,29 +32,28 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useCreateTransport } from "@/hooks/use-transports"
+import { useTransport, useUpdateTransport } from "@/hooks/use-transports"
 import { useVehicles } from "@/hooks/use-vehicles"
 import { useDeleteImage, useUploadImage } from "@/hooks/use-uploads"
-import type { Coordinates, RouteStep, TransportImage, Lang, WeekDay } from "@/types/transport"
+import type { Coordinates, Lang, RouteStep, TransportImage, WeekDay } from "@/types/transport"
 import { SUPPORTED_LANGS } from "@/types/transport"
-import { ArrowLeft, Upload, X, Plus, Trash2, Info, MapPin, Route, Clock, ImageIcon, Languages } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
 
 const WEEKDAYS: { value: WeekDay; label: string }[] = [
   { value: "monday", label: "Lunes" },
   { value: "tuesday", label: "Martes" },
-  { value: "wednesday", label: "Miércoles" },
+  { value: "wednesday", label: "Miercoles" },
   { value: "thursday", label: "Jueves" },
   { value: "friday", label: "Viernes" },
-  { value: "saturday", label: "Sábado" },
+  { value: "saturday", label: "Sabado" },
   { value: "sunday", label: "Domingo" },
 ]
 
-export default function NewTransportPage() {
+export default function EditTransportPage() {
   const router = useRouter()
   const params = useParams()
+  const transportId = params.id as string
   const locale = params.locale as string
+
   const [activeTab, setActiveTab] = useState("general")
   const [formData, setFormData] = useState({
     title: "",
@@ -59,12 +76,56 @@ export default function NewTransportPage() {
   const [images, setImages] = useState<TransportImage[]>([])
   const [availableDays, setAvailableDays] = useState<WeekDay[]>([])
 
+  const { data: transport, isLoading } = useTransport(transportId)
   const { data: vehiclesData } = useVehicles(1, 100)
-  const createTransportMutation = useCreateTransport()
+  const updateTransportMutation = useUpdateTransport()
   const uploadImageMutation = useUploadImage()
   const deleteImageMutation = useDeleteImage()
 
   const vehicles = vehiclesData?.data || []
+
+  useEffect(() => {
+    if (!transport) return
+
+    const vehicleId = typeof transport.vehicle === "string" ? transport.vehicle : transport.vehicle?._id || ""
+    const durationHours =
+      transport.durationHours ??
+      (transport.durationMinutes && transport.durationMinutes >= 60 ? Math.floor(transport.durationMinutes / 60) : 0)
+    const durationMinutes =
+      transport.durationHours == null && transport.durationMinutes && transport.durationMinutes >= 60
+        ? transport.durationMinutes % 60
+        : transport.durationMinutes ?? 0
+
+    setFormData({
+      title: transport.title || "",
+      description: transport.description || "",
+      routeDescription: transport.routeDescription || "",
+      currentPrice: transport.currentPrice || 0,
+      oldPrice: transport.oldPrice || 0,
+      vehicle: vehicleId,
+      durationHours,
+      durationMinutes,
+      departureTime: transport.departureTime || "",
+      arrivalTime: transport.arrivalTime || "",
+      titleTranslations: transport.titleTranslations || {},
+      descriptionTranslations: transport.descriptionTranslations || {},
+      routeDescriptionTranslations: transport.routeDescriptionTranslations || {},
+    })
+    setOrigin(transport.origin || { name: "", lat: 0, lng: 0 })
+    setDestination(transport.destination || { name: "", lat: 0, lng: 0 })
+    setRoute(
+      transport.route?.map((step, index) => ({
+        order: step.order || index + 1,
+        name: step.name || "",
+        lat: step.lat || 0,
+        lng: step.lng || 0,
+        image: step.image,
+        translations: step.translations || {},
+      })) || [],
+    )
+    setImages(transport.images || [])
+    setAvailableDays(transport.availableDays || [])
+  }, [transport])
 
   const toggleAvailableDay = (day: WeekDay) => {
     setAvailableDays((prev) => (prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]))
@@ -107,8 +168,8 @@ export default function NewTransportPage() {
     }
 
     const updatedRoute = route.filter((_, i) => i !== index)
-    updatedRoute.forEach((step, i) => {
-      step.order = i + 1
+    updatedRoute.forEach((stepItem, i) => {
+      stepItem.order = i + 1
     })
     setRoute(updatedRoute)
   }
@@ -130,6 +191,20 @@ export default function NewTransportPage() {
     }
 
     e.target.value = ""
+  }
+
+  const handleRemoveImage = async (index: number) => {
+    const image = images[index]
+    if (image?.publicId) {
+      try {
+        await deleteImageMutation.trigger(image.publicId)
+      } catch (error) {
+        console.error("Error deleting image:", error)
+        toast.error("No se pudo eliminar la imagen")
+        return
+      }
+    }
+    setImages(images.filter((_, i) => i !== index))
   }
 
   const handleRouteStepImageUpload = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -156,20 +231,6 @@ export default function NewTransportPage() {
     }
 
     e.target.value = ""
-  }
-
-  const handleRemoveImage = async (index: number) => {
-    const image = images[index]
-    if (image?.publicId) {
-      try {
-        await deleteImageMutation.trigger(image.publicId)
-      } catch (error) {
-        console.error("Error deleting image:", error)
-        toast.error("No se pudo eliminar la imagen")
-        return
-      }
-    }
-    setImages(images.filter((_, i) => i !== index))
   }
 
   const handleRemoveRouteStepImage = async (index: number) => {
@@ -246,13 +307,33 @@ export default function NewTransportPage() {
         images: images.length > 0 ? images : undefined,
       }
 
-      await createTransportMutation.trigger(transportData)
-      toast.success("Paquete de transporte creado")
+      await updateTransportMutation.trigger({ id: transportId, data: transportData })
+      toast.success("Paquete de transporte actualizado")
       router.push(`/${locale}/dashboard/transports`)
     } catch (error) {
-      console.error("Error creating transport:", error)
-      toast.error("No se pudo crear el transporte")
+      console.error("Error updating transport:", error)
+      toast.error("No se pudo actualizar el transporte")
     }
+  }
+
+  if (isLoading) {
+    return (
+      <SidebarInset>
+        <div className="flex items-center justify-center h-screen">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
+      </SidebarInset>
+    )
+  }
+
+  if (!transport) {
+    return (
+      <SidebarInset>
+        <div className="m-4 rounded-lg border bg-background p-8 text-center text-muted-foreground">
+          No se encontro el paquete de transporte solicitado.
+        </div>
+      </SidebarInset>
+    )
   }
 
   return (
@@ -263,21 +344,25 @@ export default function NewTransportPage() {
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <div className="flex items-center justify-between w-full">
-              <div>
-                <h1 className="text-xl font-semibold">Nuevo Paquete de Transporte</h1>
-                <p className="text-sm text-muted-foreground">Crea un nuevo servicio de transporte turístico</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" asChild>
+              <div className="flex items-center gap-4">
+                <Button variant="ghost" size="icon" asChild>
                   <Link href={`/${locale}/dashboard/transports`}>
-                    <ArrowLeft className="h-4 w-4 mr-2" />
-                    Volver
+                    <ArrowLeft className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button onClick={handleSubmit} disabled={createTransportMutation.isMutating}>
-                  {createTransportMutation.isMutating ? "Creando..." : "Crear Paquete"}
-                </Button>
+                <div>
+                  <h1 className="text-xl font-semibold">Editar Paquete de Transporte</h1>
+                  <p className="text-sm text-muted-foreground">Actualiza el transporte y su itinerario completo</p>
+                </div>
               </div>
+              <Button onClick={handleSubmit} disabled={updateTransportMutation.isMutating}>
+                {updateTransportMutation.isMutating ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <Save className="h-4 w-4 mr-2" />
+                )}
+                Guardar Cambios
+              </Button>
             </div>
           </div>
         </header>
@@ -285,45 +370,27 @@ export default function NewTransportPage() {
         <main className="flex flex-1 flex-col gap-6 p-6 bg-background/50 backdrop-blur rounded-b-lg">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-6 h-auto">
-              <TabsTrigger
-                value="general"
-                className="flex-col gap-1 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-              >
+              <TabsTrigger value="general" className="flex-col gap-1 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <Info className="h-4 w-4" />
                 <span className="hidden sm:inline text-xs">General</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="location"
-                className="flex-col gap-1 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-              >
+              <TabsTrigger value="location" className="flex-col gap-1 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <MapPin className="h-4 w-4" />
-                <span className="hidden sm:inline text-xs">Ubicación</span>
+                <span className="hidden sm:inline text-xs">Ubicacion</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="route"
-                className="flex-col gap-1 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-              >
+              <TabsTrigger value="route" className="flex-col gap-1 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <Route className="h-4 w-4" />
                 <span className="hidden sm:inline text-xs">Itinerario</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="schedule"
-                className="flex-col gap-1 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-              >
+              <TabsTrigger value="schedule" className="flex-col gap-1 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <Clock className="h-4 w-4" />
                 <span className="hidden sm:inline text-xs">Horarios</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="images"
-                className="flex-col gap-1 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-              >
+              <TabsTrigger value="images" className="flex-col gap-1 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <ImageIcon className="h-4 w-4" />
-                <span className="hidden sm:inline text-xs">Imágenes</span>
+                <span className="hidden sm:inline text-xs">Imagenes</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="translations"
-                className="flex-col gap-1 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-              >
+              <TabsTrigger value="translations" className="flex-col gap-1 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                 <Languages className="h-4 w-4" />
                 <span className="hidden sm:inline text-xs">Traducciones</span>
               </TabsTrigger>
@@ -332,63 +399,36 @@ export default function NewTransportPage() {
             <TabsContent value="general" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Información General</CardTitle>
-                  <CardDescription>Detalles básicos del paquete de transporte</CardDescription>
+                  <CardTitle>Informacion General</CardTitle>
+                  <CardDescription>Detalles basicos del paquete de transporte</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="title">Título</Label>
-                    <Input
-                      id="title"
-                      value={formData.title}
-                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                      placeholder="Ej: Transfer Aeropuerto - Hotel"
-                    />
+                    <Label htmlFor="title">Titulo</Label>
+                    <Input id="title" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} placeholder="Ej: Transfer Aeropuerto - Hotel" />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="description">Descripción</Label>
-                    <Textarea
-                      id="description"
-                      value={formData.description}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      placeholder="Describe el servicio de transporte..."
-                      rows={4}
-                    />
+                    <Label htmlFor="description">Descripcion</Label>
+                    <Textarea id="description" value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} placeholder="Describe el servicio de transporte..." rows={4} />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="currentPrice">Precio Actual</Label>
-                      <Input
-                        id="currentPrice"
-                        type="number"
-                        value={formData.currentPrice}
-                        onChange={(e) => setFormData({ ...formData, currentPrice: Number(e.target.value) })}
-                        placeholder="0"
-                      />
+                      <Input id="currentPrice" type="number" value={formData.currentPrice} onChange={(e) => setFormData({ ...formData, currentPrice: Number(e.target.value) || 0 })} placeholder="0" />
                     </div>
-
                     <div className="space-y-2">
-                      <Label htmlFor="oldPrice">Precio Anterior (opcional)</Label>
-                      <Input
-                        id="oldPrice"
-                        type="number"
-                        value={formData.oldPrice}
-                        onChange={(e) => setFormData({ ...formData, oldPrice: Number(e.target.value) })}
-                        placeholder="0"
-                      />
+                      <Label htmlFor="oldPrice">Precio Anterior</Label>
+                      <Input id="oldPrice" type="number" value={formData.oldPrice} onChange={(e) => setFormData({ ...formData, oldPrice: Number(e.target.value) || 0 })} placeholder="0" />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="vehicle">Vehículo</Label>
-                    <Select
-                      value={formData.vehicle}
-                      onValueChange={(value) => setFormData({ ...formData, vehicle: value })}
-                    >
+                    <Label htmlFor="vehicle">Vehiculo</Label>
+                    <Select value={formData.vehicle} onValueChange={(value) => setFormData({ ...formData, vehicle: value })}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecciona un vehículo" />
+                        <SelectValue placeholder="Selecciona un vehiculo" />
                       </SelectTrigger>
                       <SelectContent>
                         {vehicles.map((vehicle) => (
@@ -407,31 +447,15 @@ export default function NewTransportPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Ubicaciones</CardTitle>
-                  <CardDescription>Define el origen y destino del servicio</CardDescription>
+                  <CardDescription>Define origen, destino y descripcion de la ruta</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label>Origen</Label>
-                    <Input
-                      value={origin.name}
-                      onChange={(e) => setOrigin({ ...origin, name: e.target.value })}
-                      placeholder="Nombre del lugar de origen"
-                    />
+                    <Input value={origin.name} onChange={(e) => setOrigin({ ...origin, name: e.target.value })} placeholder="Nombre del lugar de origen" />
                     <div className="grid grid-cols-2 gap-2">
-                      <Input
-                        type="number"
-                        step="any"
-                        value={origin.lat}
-                        onChange={(e) => setOrigin({ ...origin, lat: Number(e.target.value) })}
-                        placeholder="Latitud"
-                      />
-                      <Input
-                        type="number"
-                        step="any"
-                        value={origin.lng}
-                        onChange={(e) => setOrigin({ ...origin, lng: Number(e.target.value) })}
-                        placeholder="Longitud"
-                      />
+                      <Input type="number" step="any" value={origin.lat} onChange={(e) => setOrigin({ ...origin, lat: Number(e.target.value) || 0 })} placeholder="Latitud" />
+                      <Input type="number" step="any" value={origin.lng} onChange={(e) => setOrigin({ ...origin, lng: Number(e.target.value) || 0 })} placeholder="Longitud" />
                     </div>
                   </div>
 
@@ -439,40 +463,18 @@ export default function NewTransportPage() {
 
                   <div className="space-y-2">
                     <Label>Destino</Label>
-                    <Input
-                      value={destination.name}
-                      onChange={(e) => setDestination({ ...destination, name: e.target.value })}
-                      placeholder="Nombre del lugar de destino"
-                    />
+                    <Input value={destination.name} onChange={(e) => setDestination({ ...destination, name: e.target.value })} placeholder="Nombre del lugar de destino" />
                     <div className="grid grid-cols-2 gap-2">
-                      <Input
-                        type="number"
-                        step="any"
-                        value={destination.lat}
-                        onChange={(e) => setDestination({ ...destination, lat: Number(e.target.value) })}
-                        placeholder="Latitud"
-                      />
-                      <Input
-                        type="number"
-                        step="any"
-                        value={destination.lng}
-                        onChange={(e) => setDestination({ ...destination, lng: Number(e.target.value) })}
-                        placeholder="Longitud"
-                      />
+                      <Input type="number" step="any" value={destination.lat} onChange={(e) => setDestination({ ...destination, lat: Number(e.target.value) || 0 })} placeholder="Latitud" />
+                      <Input type="number" step="any" value={destination.lng} onChange={(e) => setDestination({ ...destination, lng: Number(e.target.value) || 0 })} placeholder="Longitud" />
                     </div>
                   </div>
 
                   <Separator />
 
                   <div className="space-y-2">
-                    <Label htmlFor="routeDescription">Descripción de la Ruta (Opcional)</Label>
-                    <Textarea
-                      id="routeDescription"
-                      value={formData.routeDescription}
-                      onChange={(e) => setFormData({ ...formData, routeDescription: e.target.value })}
-                      placeholder="Describe la ruta del transporte..."
-                      rows={4}
-                    />
+                    <Label htmlFor="routeDescription">Descripcion de la Ruta</Label>
+                    <Textarea id="routeDescription" value={formData.routeDescription} onChange={(e) => setFormData({ ...formData, routeDescription: e.target.value })} placeholder="Describe la ruta del transporte..." rows={4} />
                   </div>
                 </CardContent>
               </Card>
@@ -482,11 +484,11 @@ export default function NewTransportPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Itinerario del Transporte</CardTitle>
-                  <CardDescription>Define los puntos de parada y pasos de la ruta del transporte</CardDescription>
+                  <CardDescription>Define los pasos, paradas o hitos de la ruta</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <p className="text-sm text-muted-foreground">Agrega y ordena los pasos del itinerario del transporte</p>
+                    <p className="text-sm text-muted-foreground">Agrega y edita los pasos del itinerario del transporte.</p>
                     <Button type="button" onClick={addRouteStep} variant="outline" size="sm">
                       <Plus className="h-4 w-4 mr-2" />
                       Agregar Paso
@@ -512,59 +514,27 @@ export default function NewTransportPage() {
                           <CardContent className="space-y-3">
                             <div className="space-y-2">
                               <Label>Nombre del Lugar</Label>
-                              <Input
-                                value={step.name}
-                                onChange={(e) => updateRouteStep(index, "name", e.target.value)}
-                                placeholder="Ej: Mirador del Valle"
-                              />
+                              <Input value={step.name} onChange={(e) => updateRouteStep(index, "name", e.target.value)} placeholder="Ej: Mirador del Valle" />
                             </div>
 
                             <div className="grid grid-cols-2 gap-2">
                               <div className="space-y-2">
                                 <Label>Latitud</Label>
-                                <Input
-                                  type="number"
-                                  step="any"
-                                  value={step.lat}
-                                  onChange={(e) => updateRouteStep(index, "lat", Number(e.target.value))}
-                                  placeholder="0.0"
-                                />
+                                <Input type="number" step="any" value={step.lat} onChange={(e) => updateRouteStep(index, "lat", Number(e.target.value) || 0)} placeholder="0.0" />
                               </div>
                               <div className="space-y-2">
                                 <Label>Longitud</Label>
-                                <Input
-                                  type="number"
-                                  step="any"
-                                  value={step.lng}
-                                  onChange={(e) => updateRouteStep(index, "lng", Number(e.target.value))}
-                                  placeholder="0.0"
-                                />
+                                <Input type="number" step="any" value={step.lng} onChange={(e) => updateRouteStep(index, "lng", Number(e.target.value) || 0)} placeholder="0.0" />
                               </div>
                             </div>
 
                             <div className="space-y-2">
-                              <Label>Imagen del Paso (Opcional)</Label>
-                              <Input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => handleRouteStepImageUpload(index, e)}
-                              />
+                              <Label>Imagen del Paso</Label>
+                              <Input type="file" accept="image/*" onChange={(e) => void handleRouteStepImageUpload(index, e)} />
                               {step.image?.url && (
                                 <div className="relative mt-2">
-                                  <Image
-                                    src={step.image.url || "/placeholder.svg"}
-                                    alt={`Route step ${index + 1}`}
-                                    width={200}
-                                    height={150}
-                                    className="rounded-lg object-cover w-full h-32"
-                                  />
-                                  <Button
-                                    type="button"
-                                    variant="destructive"
-                                    size="icon"
-                                    className="absolute top-2 right-2"
-                                    onClick={() => void handleRemoveRouteStepImage(index)}
-                                  >
+                                  <Image src={step.image.url} alt={`Route step ${index + 1}`} width={200} height={150} className="rounded-lg object-cover w-full h-32" />
+                                  <Button type="button" variant="destructive" size="icon" className="absolute top-2 right-2" onClick={() => void handleRemoveRouteStepImage(index)}>
                                     <X className="h-4 w-4" />
                                   </Button>
                                 </div>
@@ -578,16 +548,8 @@ export default function NewTransportPage() {
                               <div className="grid grid-cols-2 gap-2">
                                 {SUPPORTED_LANGS.filter((lang) => lang !== "es").map((lang) => (
                                   <div key={lang} className="space-y-1">
-                                    <Label htmlFor={`route-${index}-${lang}`} className="text-xs uppercase">
-                                      {lang}
-                                    </Label>
-                                    <Input
-                                      id={`route-${index}-${lang}`}
-                                      value={step.translations?.[lang] || ""}
-                                      onChange={(e) => updateRouteStepTranslation(index, lang, e.target.value)}
-                                      placeholder={`Nombre en ${lang}`}
-                                      className="text-sm"
-                                    />
+                                    <Label htmlFor={`route-${index}-${lang}`} className="text-xs uppercase">{lang}</Label>
+                                    <Input id={`route-${index}-${lang}`} value={step.translations?.[lang] || ""} onChange={(e) => updateRouteStepTranslation(index, lang, e.target.value)} placeholder={`Nombre en ${lang}`} className="text-sm" />
                                   </div>
                                 ))}
                               </div>
@@ -604,87 +566,44 @@ export default function NewTransportPage() {
             <TabsContent value="schedule" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Horarios y Duración</CardTitle>
+                  <CardTitle>Horarios y Duracion</CardTitle>
                   <CardDescription>Configura los horarios del servicio</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="durationHours">Duración (Horas)</Label>
-                      <Input
-                        id="durationHours"
-                        type="number"
-                        value={formData.durationHours}
-                        onChange={(e) => setFormData({ ...formData, durationHours: Number(e.target.value) })}
-                        placeholder="0"
-                      />
+                      <Label htmlFor="durationHours">Duracion (Horas)</Label>
+                      <Input id="durationHours" type="number" value={formData.durationHours} onChange={(e) => setFormData({ ...formData, durationHours: Number(e.target.value) || 0 })} placeholder="0" />
                     </div>
-
                     <div className="space-y-2">
-                      <Label htmlFor="durationMinutes">Duración (Minutos)</Label>
-                      <Input
-                        id="durationMinutes"
-                        type="number"
-                        value={formData.durationMinutes}
-                        onChange={(e) => setFormData({ ...formData, durationMinutes: Number(e.target.value) })}
-                        placeholder="0"
-                      />
+                      <Label htmlFor="durationMinutes">Duracion (Minutos)</Label>
+                      <Input id="durationMinutes" type="number" value={formData.durationMinutes} onChange={(e) => setFormData({ ...formData, durationMinutes: Number(e.target.value) || 0 })} placeholder="0" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="departureTime">Hora de Salida</Label>
-                      <Input
-                        id="departureTime"
-                        type="time"
-                        value={formData.departureTime}
-                        onChange={(e) => setFormData({ ...formData, departureTime: e.target.value })}
-                      />
+                      <Input id="departureTime" type="time" value={formData.departureTime} onChange={(e) => setFormData({ ...formData, departureTime: e.target.value })} />
                     </div>
-
                     <div className="space-y-2">
                       <Label htmlFor="arrivalTime">Hora de Llegada</Label>
-                      <Input
-                        id="arrivalTime"
-                        type="time"
-                        value={formData.arrivalTime}
-                        onChange={(e) => setFormData({ ...formData, arrivalTime: e.target.value })}
-                      />
+                      <Input id="arrivalTime" type="time" value={formData.arrivalTime} onChange={(e) => setFormData({ ...formData, arrivalTime: e.target.value })} />
                     </div>
                   </div>
 
                   <Separator />
 
                   <div className="space-y-2">
-                    <Label>Días Disponibles</Label>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      Selecciona los días en los que el servicio está disponible
-                    </p>
+                    <Label>Dias Disponibles</Label>
+                    <p className="text-sm text-muted-foreground mb-4">Selecciona los dias en los que el servicio esta disponible</p>
                     <div className="grid grid-cols-2 sm:grid-cols-7 gap-2">
                       {WEEKDAYS.map((day) => (
-                        <Button
-                          key={day.value}
-                          type="button"
-                          variant={availableDays.includes(day.value) ? "default" : "outline"}
-                          onClick={() => toggleAvailableDay(day.value)}
-                          className="w-full justify-center text-xs sm:text-sm"
-                        >
+                        <Button key={day.value} type="button" variant={availableDays.includes(day.value) ? "default" : "outline"} onClick={() => toggleAvailableDay(day.value)} className="w-full justify-center text-xs sm:text-sm">
                           {day.label}
                         </Button>
                       ))}
                     </div>
-                    {availableDays.length === 0 && (
-                      <p className="text-xs text-muted-foreground mt-4">
-                        Si no seleccionas ningún día, se asumirá que el servicio está disponible todos los días
-                      </p>
-                    )}
-                    {availableDays.length > 0 && (
-                      <p className="text-xs text-emerald-600 mt-4">
-                        Servicio disponible:{" "}
-                        {availableDays.map((d) => WEEKDAYS.find((w) => w.value === d)?.label).join(", ")}
-                      </p>
-                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -693,23 +612,16 @@ export default function NewTransportPage() {
             <TabsContent value="images" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Imágenes</CardTitle>
-                  <CardDescription>Agrega imágenes del servicio de transporte</CardDescription>
+                  <CardTitle>Imagenes</CardTitle>
+                  <CardDescription>Administra las imagenes del servicio de transporte</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="images">Subir Imágenes</Label>
+                    <Label htmlFor="images">Subir Imagenes</Label>
                     <div className="flex items-center gap-2">
-                      <Input
-                        id="images"
-                        type="file"
-                        accept="image/*"
-                        multiple
-                        onChange={handleImageUpload}
-                        className="flex-1"
-                      />
-                      <Button type="button" variant="outline" size="icon">
-                        <Upload className="h-4 w-4" />
+                      <Input id="images" type="file" accept="image/*" multiple onChange={(e) => void handleImageUpload(e)} className="flex-1" />
+                      <Button type="button" variant="outline" size="icon" disabled={uploadImageMutation.isMutating}>
+                        {uploadImageMutation.isMutating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                       </Button>
                     </div>
                   </div>
@@ -717,21 +629,9 @@ export default function NewTransportPage() {
                   {images.length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
                       {images.map((image, index) => (
-                        <div key={index} className="relative group">
-                          <Image
-                            src={image.url || "/placeholder.svg"}
-                            alt={`Transport image ${index + 1}`}
-                            width={200}
-                            height={150}
-                            className="rounded-lg object-cover w-full h-32"
-                          />
-                          <Button
-                            type="button"
-                            variant="destructive"
-                            size="icon"
-                            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={() => void handleRemoveImage(index)}
-                          >
+                        <div key={`${image.publicId}-${index}`} className="relative group">
+                          <Image src={image.url} alt={`Transport image ${index + 1}`} width={200} height={150} className="rounded-lg object-cover w-full h-32" />
+                          <Button type="button" variant="destructive" size="icon" className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => void handleRemoveImage(index)}>
                             <X className="h-4 w-4" />
                           </Button>
                         </div>
@@ -746,7 +646,7 @@ export default function NewTransportPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Traducciones</CardTitle>
-                  <CardDescription>Agrega traducciones para otros idiomas</CardDescription>
+                  <CardDescription>Actualiza las traducciones del transporte</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   {SUPPORTED_LANGS.filter((lang) => lang !== "es").map((lang) => (
@@ -754,53 +654,18 @@ export default function NewTransportPage() {
                       <h3 className="font-semibold text-sm uppercase">{lang}</h3>
 
                       <div className="space-y-2">
-                        <Label htmlFor={`title-${lang}`}>Título</Label>
-                        <Input
-                          id={`title-${lang}`}
-                          value={formData.titleTranslations[lang] || ""}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              titleTranslations: { ...formData.titleTranslations, [lang]: e.target.value },
-                            })
-                          }
-                          placeholder={`Título en ${lang}`}
-                        />
+                        <Label htmlFor={`title-${lang}`}>Titulo</Label>
+                        <Input id={`title-${lang}`} value={formData.titleTranslations[lang] || ""} onChange={(e) => setFormData({ ...formData, titleTranslations: { ...formData.titleTranslations, [lang]: e.target.value } })} placeholder={`Titulo en ${lang}`} />
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor={`description-${lang}`}>Descripción</Label>
-                        <Textarea
-                          id={`description-${lang}`}
-                          value={formData.descriptionTranslations[lang] || ""}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              descriptionTranslations: { ...formData.descriptionTranslations, [lang]: e.target.value },
-                            })
-                          }
-                          placeholder={`Descripción en ${lang}`}
-                          rows={3}
-                        />
+                        <Label htmlFor={`description-${lang}`}>Descripcion</Label>
+                        <Textarea id={`description-${lang}`} value={formData.descriptionTranslations[lang] || ""} onChange={(e) => setFormData({ ...formData, descriptionTranslations: { ...formData.descriptionTranslations, [lang]: e.target.value } })} placeholder={`Descripcion en ${lang}`} rows={3} />
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor={`routeDescription-${lang}`}>Descripción de la Ruta</Label>
-                        <Textarea
-                          id={`routeDescription-${lang}`}
-                          value={formData.routeDescriptionTranslations[lang] || ""}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              routeDescriptionTranslations: {
-                                ...formData.routeDescriptionTranslations,
-                                [lang]: e.target.value,
-                              },
-                            })
-                          }
-                          placeholder={`Descripción de la ruta en ${lang}`}
-                          rows={3}
-                        />
+                        <Label htmlFor={`routeDescription-${lang}`}>Descripcion de la Ruta</Label>
+                        <Textarea id={`routeDescription-${lang}`} value={formData.routeDescriptionTranslations[lang] || ""} onChange={(e) => setFormData({ ...formData, routeDescriptionTranslations: { ...formData.routeDescriptionTranslations, [lang]: e.target.value } })} placeholder={`Descripcion de la ruta en ${lang}`} rows={3} />
                       </div>
                     </div>
                   ))}

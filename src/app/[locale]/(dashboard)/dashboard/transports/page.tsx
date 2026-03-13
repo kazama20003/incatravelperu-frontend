@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { useParams } from "next/navigation"
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -36,6 +37,8 @@ const WEEKDAY_LABELS: Record<WeekDay, string> = {
 }
 
 export default function TransportsPage() {
+  const params = useParams()
+  const locale = params.locale as string
   const [searchTerm, setSearchTerm] = useState("")
   const [filterStatus, setFilterStatus] = useState("all")
   const page = 1
@@ -129,7 +132,7 @@ export default function TransportsPage() {
                   </SelectContent>
                 </Select>
                 <Button asChild>
-                  <Link href="/dashboard/transports/new">
+                  <Link href={`/${locale}/dashboard/transports/new`}>
                     <Plus className="h-4 w-4 mr-2" />
                     Nuevo Paquete
                   </Link>
@@ -336,13 +339,13 @@ export default function TransportsPage() {
 
                       <div className="flex gap-2">
                         <Button variant="outline" size="sm" className="flex-1 bg-transparent" asChild>
-                          <Link href={`/dashboard/transports/${transport._id}`}>
+                          <Link href={`/${locale}/dashboard/transports/${transport._id}`}>
                             <Eye className="h-4 w-4 mr-1" />
                             Ver
                           </Link>
                         </Button>
                         <Button variant="outline" size="sm" className="flex-1 bg-transparent" asChild>
-                          <Link href={`/dashboard/transports/${transport._id}/edit`}>
+                          <Link href={`/${locale}/dashboard/transports/${transport._id}/edit`}>
                             <Pencil className="h-4 w-4 mr-1" />
                             Editar
                           </Link>
