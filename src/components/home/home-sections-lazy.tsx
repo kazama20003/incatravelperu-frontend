@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react"
 import dynamic from "next/dynamic"
 import { CustomCursor } from "@/components/home/custom-cursor"
+import "@/types/plausible"
 
 interface HomeSectionsLazyProps {
   locale: string
@@ -51,6 +52,18 @@ function LazyMount({ children, minHeightClassName, rootMargin = "300px 0px" }: L
   }, [isVisible, rootMargin])
 
   return <div ref={containerRef}>{isVisible ? children : <SectionSkeleton minHeightClassName={minHeightClassName} />}</div>
+}
+
+function HomePagePlausibleTracker({ locale }: HomeSectionsLazyProps) {
+  useEffect(() => {
+    window.plausible?.("Home Page Load", {
+      props: {
+        locale,
+      },
+    })
+  }, [locale])
+
+  return null
 }
 
 const TransportsSection = dynamic(
@@ -104,6 +117,8 @@ const TestimonialsSection = dynamic(
 export function HomeSectionsLazy({ locale }: HomeSectionsLazyProps) {
   return (
     <>
+      <HomePagePlausibleTracker locale={locale} />
+
       <div id="reservar">
         <CustomCursor text="+TOURS" navigateTo={`/${locale}/tours`}>
           <LazyMount minHeightClassName="min-h-[85vh]" rootMargin="450px 0px">

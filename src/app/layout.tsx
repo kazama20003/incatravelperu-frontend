@@ -92,6 +92,13 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth">
       <head>
+        <script async src="https://plausible.io/js/pa-PwPReXTWXV-lL-uxSCFN3.js" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()",
+          }}
+        />
 
         <meta name="theme-color" content="#1f2937" />
 

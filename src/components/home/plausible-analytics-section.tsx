@@ -1,36 +1,18 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import Script from "next/script"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { BarChart3, Globe2, ShieldCheck } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/context"
+import "@/types/plausible"
 
 gsap.registerPlugin(ScrollTrigger)
 
-type PlausibleOptions = {
-  props?: Record<string, string>
-}
-
-type PlausibleFn = {
-  (eventName?: string, options?: PlausibleOptions): void
-  q?: IArguments[]
-  o?: Record<string, unknown>
-  init?: (options?: Record<string, unknown>) => void
-}
-
-declare global {
-  interface Window {
-    plausible?: PlausibleFn
-  }
-}
-
 export function PlausibleAnalyticsSection() {
-  const { locale, dictionary } = useTranslation()
+  const { dictionary } = useTranslation()
   const dict = dictionary.plausibleAnalytics
   const sectionRef = useRef<HTMLElement>(null)
-  const hasTrackedRef = useRef(false)
 
   useEffect(() => {
     if (!sectionRef.current) return
@@ -60,17 +42,6 @@ export function PlausibleAnalyticsSection() {
     }
   }, [])
 
-  useEffect(() => {
-    if (hasTrackedRef.current) return
-
-    hasTrackedRef.current = true
-    window.plausible?.("Home Page Load", {
-      props: {
-        locale,
-      },
-    })
-  }, [locale])
-
   const cards = [
     {
       icon: ShieldCheck,
@@ -90,57 +61,46 @@ export function PlausibleAnalyticsSection() {
   ]
 
   return (
-    <>
-      <Script
-        id="plausible-script"
-        src="https://plausible.io/js/pa-PwPReXTWXV-lL-uxSCFN3.js"
-        strategy="afterInteractive"
-      />
-      <Script id="plausible-init" strategy="afterInteractive">
-        {`window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)};window.plausible.init=window.plausible.init||function(i){window.plausible.o=i||{}};window.plausible.init();`}
-      </Script>
+    <section ref={sectionRef} className="w-full bg-black text-white border-x-8 border-white">
+      <div className="px-6 md:px-10 lg:px-16 py-16 md:py-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 items-end mb-12">
+            <div data-plausible-reveal>
+              <span className="inline-flex items-center border border-white/20 px-3 py-1 text-[10px] font-black tracking-[0.35em] uppercase text-white/70">
+                {dict.eyebrow}
+              </span>
+              <h2 className="mt-5 text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-none">
+                {dict.title}
+              </h2>
+              <p className="mt-2 text-xl md:text-2xl italic text-white/70 font-black">{dict.titleLine2}</p>
+            </div>
 
-      <section ref={sectionRef} className="w-full bg-black text-white border-x-8 border-white">
-        <div className="px-6 md:px-10 lg:px-16 py-16 md:py-20">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 items-end mb-12">
-              <div data-plausible-reveal>
-                <span className="inline-flex items-center border border-white/20 px-3 py-1 text-[10px] font-black tracking-[0.35em] uppercase text-white/70">
-                  {dict.eyebrow}
-                </span>
-                <h2 className="mt-5 text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-none">
-                  {dict.title}
-                </h2>
-                <p className="mt-2 text-xl md:text-2xl italic text-white/70 font-black">{dict.titleLine2}</p>
-              </div>
+            <p
+              data-plausible-reveal
+              className="max-w-xl text-sm md:text-base leading-relaxed text-white/72 font-semibold lg:justify-self-end"
+            >
+              {dict.description}
+            </p>
+          </div>
 
-              <p
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {cards.map((card) => (
+              <article
+                key={card.title}
                 data-plausible-reveal
-                className="max-w-xl text-sm md:text-base leading-relaxed text-white/72 font-semibold lg:justify-self-end"
+                className="border border-white/15 bg-white/5 p-6 md:p-7 min-h-56 flex flex-col"
               >
-                {dict.description}
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {cards.map((card) => (
-                <article
-                  key={card.title}
-                  data-plausible-reveal
-                  className="border border-white/15 bg-white/5 p-6 md:p-7 min-h-56 flex flex-col"
-                >
-                  <div className="flex items-center justify-between mb-10">
-                    <card.icon className="h-6 w-6 text-[#FF4D00]" />
-                    <span className="text-[10px] font-black tracking-[0.35em] uppercase text-white/40">Plausible</span>
-                  </div>
-                  <h3 className="text-lg md:text-xl font-black uppercase tracking-wide mb-3">{card.title}</h3>
-                  <p className="text-sm leading-relaxed text-white/72 font-semibold">{card.description}</p>
-                </article>
-              ))}
-            </div>
+                <div className="flex items-center justify-between mb-10">
+                  <card.icon className="h-6 w-6 text-[#FF4D00]" />
+                  <span className="text-[10px] font-black tracking-[0.35em] uppercase text-white/40">Plausible</span>
+                </div>
+                <h3 className="text-lg md:text-xl font-black uppercase tracking-wide mb-3">{card.title}</h3>
+                <p className="text-sm leading-relaxed text-white/72 font-semibold">{card.description}</p>
+              </article>
+            ))}
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   )
 }
