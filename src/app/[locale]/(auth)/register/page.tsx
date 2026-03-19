@@ -1,5 +1,6 @@
 "use client"
 
+import type { AxiosError } from "axios"
 import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -10,6 +11,30 @@ import { Eye, EyeOff, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useRegister } from "@/hooks/use-auth"
 import { authService } from "@/services/auth-service"
+
+type ApiErrorResponse = {
+  message?: string | string[]
+  error?: string
+}
+
+function getRegisterErrorMessage(error: unknown) {
+  const apiError = error as AxiosError<ApiErrorResponse> | null
+  const message = apiError?.response?.data?.message
+
+  if (Array.isArray(message)) {
+    return message.join(" ")
+  }
+
+  if (typeof message === "string" && message.trim()) {
+    return message
+  }
+
+  if (error instanceof Error && error.message.trim()) {
+    return error.message
+  }
+
+  return null
+}
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -22,6 +47,7 @@ export default function RegisterPage() {
   const [passwordError, setPasswordError] = useState("")
 
   const { trigger: register, isMutating: isPending, error } = useRegister()
+  const registerErrorMessage = getRegisterErrorMessage(error)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -93,8 +119,10 @@ export default function RegisterPage() {
               <p className="text-muted-foreground">Join E-tourims and start planning your next adventure today.</p>
             </div>
 
-            {(error || passwordError) && (
-              <div className="p-3 text-sm text-red-500 bg-red-50 rounded-lg">{error?.message || passwordError}</div>
+            {(registerErrorMessage || passwordError) && (
+              <div className="p-3 text-sm text-red-500 bg-red-50 rounded-lg">
+                {passwordError || registerErrorMessage}
+              </div>
             )}
 
             <div className="space-y-4">

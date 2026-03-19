@@ -6,7 +6,7 @@ interface CreateUserDto {
   firstName: string
   lastName: string
   email: string
-  authProvider: "LOCAL" | "GOOGLE" | "FACEBOOK"
+  authProvider: "local" | "google" | "facebook"
   password?: string
   externalId?: string
   roles?: string[]

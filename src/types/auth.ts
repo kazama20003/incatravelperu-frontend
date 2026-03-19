@@ -30,7 +30,7 @@ export interface RegisterDto {
   firstName: string
   lastName: string
   password: string
-  authProvider?: "LOCAL" | "GOOGLE" | "FACEBOOK"
+  authProvider?: "local" | "google" | "facebook"
   country?: string
   phone?: string
   address?: string

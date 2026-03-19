@@ -3,7 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { authService } from "@/services/auth-service"
 import { useRouter } from "next/navigation"
-import type { UpdateUserDto } from "@/types/user"
+import { AuthProvider, type UpdateUserDto } from "@/types/user"
 
 interface LoginCredentials {
   email: string
@@ -15,7 +15,6 @@ interface RegisterDto {
   lastName: string
   email: string
   password: string
-  authProvider?: "LOCAL" | "GOOGLE" | "FACEBOOK"
   country?: string
   phone?: string
   address?: string
@@ -57,7 +56,10 @@ export function useRegister() {
     mutationFn: async (credentials: RegisterDto) => {
       const registerData = {
         ...credentials,
-        authProvider: "LOCAL" as const,
+        email: credentials.email.trim().toLowerCase(),
+        firstName: credentials.firstName.trim(),
+        lastName: credentials.lastName.trim(),
+        authProvider: AuthProvider.LOCAL,
       }
       return authService.register(registerData)
     },

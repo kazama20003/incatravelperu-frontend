@@ -1,7 +1,7 @@
 export enum AuthProvider {
-  LOCAL = "LOCAL",
-  GOOGLE = "GOOGLE",
-  FACEBOOK = "FACEBOOK",
+  LOCAL = "local",
+  GOOGLE = "google",
+  FACEBOOK = "facebook",
 }
 
 export interface User {
@@ -28,7 +28,7 @@ export interface CreateUserDto {
   firstName: string
   lastName: string
   email: string
-  authProvider: string
+  authProvider: AuthProvider | string
   password?: string
   externalId?: string
   roles?: string[]

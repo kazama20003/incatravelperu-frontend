@@ -48,6 +48,25 @@ const WEEKDAYS: { value: WeekDay; label: string }[] = [
   { value: "sunday", label: "Domingo" },
 ]
 
+function sanitizeCoordinates(value?: Partial<Coordinates> & { _id?: string }): Coordinates {
+  return {
+    name: value?.name || "",
+    lat: typeof value?.lat === "number" ? value.lat : 0,
+    lng: typeof value?.lng === "number" ? value.lng : 0,
+  }
+}
+
+function sanitizeTransportImage(image?: Partial<TransportImage> & { _id?: string }): TransportImage | undefined {
+  if (!image?.url || !image?.publicId) {
+    return undefined
+  }
+
+  return {
+    url: image.url,
+    publicId: image.publicId,
+  }
+}
+
 export default function EditTransportPage() {
   const router = useRouter()
   const params = useParams()
@@ -111,19 +130,19 @@ export default function EditTransportPage() {
       descriptionTranslations: transport.descriptionTranslations || {},
       routeDescriptionTranslations: transport.routeDescriptionTranslations || {},
     })
-    setOrigin(transport.origin || { name: "", lat: 0, lng: 0 })
-    setDestination(transport.destination || { name: "", lat: 0, lng: 0 })
+    setOrigin(sanitizeCoordinates(transport.origin))
+    setDestination(sanitizeCoordinates(transport.destination))
     setRoute(
       transport.route?.map((step, index) => ({
         order: step.order || index + 1,
         name: step.name || "",
         lat: step.lat || 0,
         lng: step.lng || 0,
-        image: step.image,
+        image: sanitizeTransportImage(step.image),
         translations: step.translations || {},
       })) || [],
     )
-    setImages(transport.images || [])
+    setImages((transport.images || []).map((image) => sanitizeTransportImage(image)).filter((image): image is TransportImage => Boolean(image)))
     setAvailableDays(transport.availableDays || [])
   }, [transport])
 
@@ -273,6 +292,12 @@ export default function EditTransportPage() {
     }
 
     try {
+      const sanitizedOrigin = sanitizeCoordinates(origin)
+      const sanitizedDestination = sanitizeCoordinates(destination)
+      const sanitizedImages = images
+        .map((image) => sanitizeTransportImage(image))
+        .filter((image): image is TransportImage => Boolean(image))
+
       const transportData = {
         title: formData.title,
         description: formData.description || undefined,
@@ -287,15 +312,17 @@ export default function EditTransportPage() {
         route:
           route.length > 0
             ? route.map((step, index) => ({
-                ...step,
                 order: index + 1,
+                name: step.name,
+                lat: step.lat,
+                lng: step.lng,
                 translations:
                   step.translations && Object.keys(step.translations).length > 0 ? step.translations : undefined,
-                image: step.image?.url ? step.image : undefined,
+                image: sanitizeTransportImage(step.image),
               }))
             : undefined,
-        origin,
-        destination,
+        origin: sanitizedOrigin,
+        destination: sanitizedDestination,
         vehicle: formData.vehicle,
         currentPrice: formData.currentPrice,
         oldPrice: formData.oldPrice > 0 ? formData.oldPrice : undefined,
@@ -304,7 +331,7 @@ export default function EditTransportPage() {
         departureTime: formData.departureTime || undefined,
         arrivalTime: formData.arrivalTime || undefined,
         availableDays: availableDays.length > 0 ? availableDays : undefined,
-        images: images.length > 0 ? images : undefined,
+        images: sanitizedImages.length > 0 ? sanitizedImages : undefined,
       }
 
       await updateTransportMutation.trigger({ id: transportId, data: transportData })
