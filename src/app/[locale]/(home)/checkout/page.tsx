@@ -28,7 +28,8 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-const USD_TO_PEN = 3.63
+const USD_TO_PEN_RATE = 3.6
+const IZIPAY_FEE_RATE = 0.05
 
 const getProductTitle = (item: CartItem): string => {
   if (typeof item.productId === "object" && item.productId && "title" in item.productId) {
@@ -71,10 +72,12 @@ export default function CheckoutPage() {
   const heroContentRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
-  const subtotal = Number(cart?.grandTotal) || 0
+  const toursSubtotal = cart?.items?.reduce((sum, item) => sum + (Number(item.totalPrice) || 0), 0) || 0
   const discount = appliedOffer ? appliedOffer.discount : 0
-  const serviceFee = 0
-  const grandTotal = subtotal - discount + serviceFee
+  const totalBeforePaymentFee = toursSubtotal - discount
+  const onlinePaymentFee = totalBeforePaymentFee * IZIPAY_FEE_RATE
+  const grandTotal = totalBeforePaymentFee + onlinePaymentFee
+  const convertUsdToPen = (amount: number) => amount * USD_TO_PEN_RATE
 
   useEffect(() => {
     if (user?.email) {
@@ -225,7 +228,9 @@ export default function CheckoutPage() {
       return sum + (Number(item.totalPrice) || 0)
     }, 0)
 
-    const calculatedGrandTotal = calculatedSubtotal - discount
+    const calculatedTotalBeforePaymentFee = calculatedSubtotal - discount
+    const calculatedPaymentFee = calculatedTotalBeforePaymentFee * IZIPAY_FEE_RATE
+    const calculatedGrandTotal = calculatedTotalBeforePaymentFee + calculatedPaymentFee
 
     const orderItems: CreateOrderItem[] = cartData.items.map((item: CartItem) => {
       let productIdString: string
@@ -289,12 +294,12 @@ export default function CheckoutPage() {
       const orderDataInPEN = {
         ...orderData,
         currency: "PEN",
-        subtotal: Math.round(orderData.subtotal * USD_TO_PEN),
-        grandTotal: Math.round(orderData.grandTotal * USD_TO_PEN),
+        subtotal: Math.round(convertUsdToPen(orderData.subtotal)),
+        grandTotal: Math.round(convertUsdToPen(orderData.grandTotal)),
         items: orderData.items.map((item) => ({
           ...item,
-          unitPrice: Math.round(item.unitPrice * USD_TO_PEN),
-          totalPrice: Math.round(item.totalPrice * USD_TO_PEN),
+          unitPrice: Math.round(convertUsdToPen(item.unitPrice)),
+          totalPrice: Math.round(convertUsdToPen(item.totalPrice)),
         })),
       }
 
@@ -476,11 +481,11 @@ export default function CheckoutPage() {
                 </div>
               )}
 
-              <div className="pt-4 space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Subtotal</span>
+                <div className="pt-4 space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Total tours</span>
                   <div className="text-right">
-                    <p className="text-foreground">${subtotal.toFixed(2)}</p>
+                    <p className="text-foreground">${toursSubtotal.toFixed(2)}</p>
                   </div>
                 </div>
 
@@ -494,23 +499,32 @@ export default function CheckoutPage() {
                 )}
 
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Service Fee</span>
-                  <span className="text-foreground">${serviceFee.toFixed(2)}</span>
+                  <div>
+                    <span className="text-muted-foreground">Cargo de billetera digital (5%)</span>
+                    <p className="text-[11px] text-muted-foreground">Se calcula sobre ${totalBeforePaymentFee.toFixed(2)}</p>
+                  </div>
+                  <span className="text-foreground">${onlinePaymentFee.toFixed(2)}</span>
                 </div>
 
                 <div className="flex items-center justify-between pt-2 border-t border-foreground/10">
-                  <span className="text-base font-serif text-foreground">Total</span>
+                  <span className="text-base font-serif text-foreground">Total a pagar</span>
                   <div className="text-right">
-                    <p className="text-xl font-serif text-foreground">${grandTotal.toFixed(2)}</p>
-                    <p className="text-xs text-muted-foreground mt-1 flex items-center justify-end gap-1">
-                      S/ {(grandTotal * USD_TO_PEN).toFixed(2)}
-                      <span className="inline-flex items-center" title="Precio de referencia en soles">
-                        <Info className="w-3 h-3" />
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
+                     <p className="text-xl font-serif text-foreground">${grandTotal.toFixed(2)}</p>
+                     <p className="text-xs text-muted-foreground mt-1 flex items-center justify-end gap-1">
+                       S/ {convertUsdToPen(grandTotal).toFixed(2)}
+                       <span
+                         className="inline-flex items-center"
+                         title={`Tipo de cambio usado: 1 USD = S/ ${USD_TO_PEN_RATE.toFixed(2)}`}
+                       >
+                         <Info className="w-3 h-3" />
+                       </span>
+                     </p>
+                     <p className="text-[11px] text-muted-foreground mt-1">
+                       Pago online calculado con 1 USD = S/ {USD_TO_PEN_RATE.toFixed(2)} e incluye 5% de Izipay
+                     </p>
+                   </div>
+                 </div>
+               </div>
             </div>
 
             {paymentError && (
