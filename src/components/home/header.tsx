@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Globe, Check, ChevronDown, Menu, X } from "lucide-react"
+import { Check, ChevronDown, Menu, X } from "lucide-react"
 import Image from "next/image"
 import { CartDrawer } from "@/components/cart/cart-drawer"
 import { useProfile } from "@/hooks/use-auth"
@@ -41,6 +41,18 @@ const Header = () => {
 
   const { locale: currentLocale, dictionary: dict } = useTranslation()
 
+  const localeFlags: Record<Locale, { alt: string; src: string }> = {
+    es: { alt: "Bandera de Espana", src: "https://flagcdn.com/w40/es.png" },
+    en: { alt: "Flag of the United States", src: "https://flagcdn.com/w40/us.png" },
+    fr: { alt: "Drapeau de la France", src: "https://flagcdn.com/w40/fr.png" },
+    it: { alt: "Bandiera d'Italia", src: "https://flagcdn.com/w40/it.png" },
+    de: { alt: "Flagge Deutschlands", src: "https://flagcdn.com/w40/de.png" },
+    pt: { alt: "Bandeira de Portugal", src: "https://flagcdn.com/w40/pt.png" },
+    zh: { alt: "Bandera de China", src: "https://flagcdn.com/w40/cn.png" },
+    ja: { alt: "Bandera de Japon", src: "https://flagcdn.com/w40/jp.png" },
+    ru: { alt: "Bandera de Rusia", src: "https://flagcdn.com/w40/ru.png" },
+  }
+
   const experiencesLabelByLocale: Record<Locale, string> = {
     es: "EXPERIENCIAS",
     en: "EXPERIENCES",
@@ -56,6 +68,7 @@ const Header = () => {
   const navItems = [
     { name: dict.nav.tours, href: `/${currentLocale}/tours` },
     { name: dict.nav.transports, href: `/${currentLocale}/transports` },
+    { name: dict.nav.privateTransports, href: `/${currentLocale}/transport-private` },
     { name: dict.nav.visit, href: `/${currentLocale}/visit` },
     { name: experiencesLabelByLocale[currentLocale], href: `/${currentLocale}/experiences` },
     { name: dict.nav.events, href: `/${currentLocale}/events` },
@@ -115,10 +128,10 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-100 p-3 sm:p-6">
-        <div className="max-w-7xl mx-auto flex flex-col gap-2">
+      <header className="fixed top-0 left-0 right-0 z-100 p-3 sm:p-5">
+        <div className="max-w-[92rem] mx-auto flex flex-col gap-2">
           <div className="bg-background overflow-visible z-50" style={{ borderRadius: "8px" }}>
-            <div className="flex items-center justify-between h-16 sm:h-24 px-4 sm:px-10">
+            <div className="flex items-center justify-between h-16 sm:h-24 px-4 sm:px-7 lg:px-8">
               <Link href={`/${currentLocale}`} className="flex items-center gap-2 sm:gap-4 shrink-0">
                 <div className="relative w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center">
                   <Image
@@ -135,7 +148,7 @@ const Header = () => {
                 </span>
               </Link>
 
-              <nav className="hidden xl:flex items-center gap-8 px-4">
+              <nav className="hidden xl:flex items-center gap-5 2xl:gap-6 px-2">
                 {navItems.map((item) => (
                   <Link
                     key={item.name}
@@ -155,8 +168,14 @@ const Header = () => {
                     onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
                     className="flex items-center gap-2 px-3 py-1.5 bg-black text-white rounded-full hover:bg-neon-orange hover:text-black transition-all duration-300"
                   >
-                    <Globe size={14} />
-                    <span className="text-[10px] font-black uppercase">{currentLocale}</span>
+                    <Image
+                      src={localeFlags[currentLocale].src}
+                      alt={localeFlags[currentLocale].alt}
+                      width={18}
+                      height={14}
+                      className="h-[14px] w-[18px] rounded-[2px] object-cover"
+                    />
+                    <span className="text-[10px] font-black">{localeNames[currentLocale]}</span>
                     <ChevronDown size={12} className={`transition-transform ${isLangMenuOpen ? "rotate-180" : ""}`} />
                   </button>
                   {isLangMenuOpen && (
@@ -165,13 +184,22 @@ const Header = () => {
                         <button
                           key={loc}
                           onClick={() => switchLocale(loc)}
-                          className={`w-full px-6 py-4 text-left text-sm font-black uppercase flex items-center justify-between transition-colors last:border-b-0 ${
+                          className={`w-full px-6 py-4 text-left text-sm font-black flex items-center justify-between transition-colors last:border-b-0 ${
                             currentLocale === loc
                               ? "bg-neon-orange text-black"
                               : "bg-white text-black hover:bg-gray-100"
                           }`}
                         >
-                          {localeNames[loc]}
+                          <span className="flex items-center gap-3">
+                            <Image
+                              src={localeFlags[loc].src}
+                              alt={localeFlags[loc].alt}
+                              width={20}
+                              height={15}
+                              className="h-[15px] w-5 rounded-[2px] object-cover"
+                            />
+                            <span>{localeNames[loc]}</span>
+                          </span>
                           {currentLocale === loc && <Check size={16} />}
                         </button>
                       ))}
@@ -259,13 +287,22 @@ const Header = () => {
                 <button
                   key={loc}
                   onClick={() => switchLocale(loc)}
-                  className={`px-5 py-2 font-black uppercase rounded-xl transition-all active:translate-x-1 active:translate-y-1 ${
+                  className={`px-5 py-2 font-black rounded-xl transition-all active:translate-x-1 active:translate-y-1 ${
                     currentLocale === loc
                       ? "bg-black text-white"
                       : "bg-white text-black hover:bg-white hover:text-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                   }`}
                 >
-                  {loc}
+                  <span className="flex items-center gap-2">
+                    <Image
+                      src={localeFlags[loc].src}
+                      alt={localeFlags[loc].alt}
+                      width={20}
+                      height={15}
+                      className="h-[15px] w-5 rounded-[2px] object-cover"
+                    />
+                    <span>{localeNames[loc]}</span>
+                  </span>
                 </button>
               ))}
             </div>

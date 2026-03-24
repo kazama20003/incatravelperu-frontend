@@ -78,36 +78,6 @@ export function TransportsSection() {
     <section id="transports-section" className="w-full bg-background">
       <div ref={dividerRef} className="border-t-8 border-white" />
 
-      <div className="py-12 md:py-16 px-4 sm:px-6 md:px-12 lg:px-20 bg-background">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-8 md:mb-12">
-            <div className="flex items-baseline gap-4 flex-wrap">
-              <h2
-                ref={titleRef}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-foreground tracking-tighter leading-tight"
-              >
-                {dict.title}
-              </h2>
-              <p ref={subtitleRef} className="text-xl sm:text-2xl md:text-3xl italic text-foreground/80 font-light">
-                {dict.subtitle}
-              </p>
-            </div>
-          </div>
-
-          <div ref={descriptionRef} className="mb-8 md:mb-12 border-b-2 border-neon-orange pb-8">
-            <p className="text-xs sm:text-sm md:text-base text-foreground/90 leading-relaxed mb-4 max-w-2xl">
-              {dict.description}
-            </p>
-            <button
-              className="text-foreground font-black text-xs md:text-sm hover:text-neon-orange transition-colors w-fit uppercase tracking-widest"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {dict.exploreTransports}
-            </button>
-          </div>
-        </div>
-      </div>
-
       <div
         ref={imagesContainerRef}
         className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border-t-8 border-white bg-background"
@@ -189,6 +159,36 @@ export function TransportsSection() {
             <p className="font-black uppercase tracking-widest">{dict.noTransportsAvailable}</p>
           </div>
         )}
+      </div>
+
+      <div className="px-4 py-12 sm:px-6 md:px-12 md:py-16 lg:px-20 bg-background">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-8 md:mb-12">
+            <div className="flex items-baseline gap-4 flex-wrap">
+              <h2
+                ref={titleRef}
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-foreground tracking-tighter leading-tight"
+              >
+                {dict.title}
+              </h2>
+              <p ref={subtitleRef} className="text-xl sm:text-2xl md:text-3xl italic text-foreground/80 font-light">
+                {dict.subtitle}
+              </p>
+            </div>
+          </div>
+
+          <div ref={descriptionRef} className="border-b-2 border-neon-orange pb-8">
+            <p className="mb-4 max-w-2xl text-xs leading-relaxed text-foreground/90 sm:text-sm md:text-base">
+              {dict.description}
+            </p>
+            <button
+              className="w-fit text-xs font-black uppercase tracking-widest text-foreground transition-colors hover:text-neon-orange md:text-sm"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {dict.exploreTransports}
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   )

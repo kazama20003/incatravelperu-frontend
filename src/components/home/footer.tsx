@@ -4,6 +4,18 @@ import { Instagram, Facebook, ArrowRight, MessageCircle, Mail } from "lucide-rea
 import Link from "next/link"
 import { useTranslation } from "@/lib/i18n/context"
 
+const privateTransportLabelByLocale = {
+  es: "TRANSPORTES PRIVADOS",
+  en: "PRIVATE TRANSPORTS",
+  pt: "TRANSPORTES PRIVADOS",
+  fr: "TRANSPORTS PRIVES",
+  de: "PRIVATE TRANSFERS",
+  it: "TRASPORTI PRIVATI",
+  ja: "PRIVATE TRANSPORTS",
+  zh: "PRIVATE TRANSPORTS",
+  ru: "PRIVATE TRANSPORTS",
+} as const
+
 export function Footer() {
   const { locale: currentLocale, dictionary } = useTranslation()
   const dict = dictionary.footer
@@ -11,6 +23,7 @@ export function Footer() {
   const navItems = [
     { name: dict.tours, href: `/${currentLocale}/tours` },
     { name: dict.transports, href: `/${currentLocale}/transports` },
+    { name: privateTransportLabelByLocale[currentLocale], href: `/${currentLocale}/transport-private` },
     { name: dict.visit, href: `/${currentLocale}/visit` },
     { name: dict.club, href: `/${currentLocale}/club` },
     { name: dict.events, href: `/${currentLocale}/events` },
@@ -27,7 +40,7 @@ export function Footer() {
           </div>
 
           {/* Subscribe + Navigation */}
-          <div className="flex flex-col md:flex-row gap-12 lg:gap-24">
+            <div className="flex flex-col md:flex-row gap-12 lg:gap-18">
             {/* Subscribe */}
             <div className="flex flex-col gap-4">
               <span className="text-sm tracking-wide font-black uppercase">{dict.subscribe}</span>
@@ -43,8 +56,8 @@ export function Footer() {
               </div>
             </div>
 
-            <div className="flex gap-16 md:gap-24">
-              <nav className="flex flex-col gap-3">
+            <div className="flex gap-10 md:gap-14">
+              <nav className="flex flex-col gap-2.5">
                 {navItems.slice(0, 3).map((item) => (
                   <Link
                     key={item.name}
@@ -56,7 +69,7 @@ export function Footer() {
                   </Link>
                 ))}
               </nav>
-              <nav className="flex flex-col gap-3">
+              <nav className="flex flex-col gap-2.5">
                 {navItems.slice(3).map((item) => (
                   <Link
                     key={item.name}
